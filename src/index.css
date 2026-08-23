@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream font-sans text-charcoal antialiased scroll-smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-charcoal-dark;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-cream-dark;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary/30 rounded-full hover:bg-secondary/50 transition-colors;
+}
+
+/* Custom glassy effects */
+.glass-nav {
+  @apply bg-cream/85 backdrop-blur-md border-b border-cream-dark/60 shadow-sm;
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-sm border border-cream-dark/55 shadow-sm hover:shadow-md transition-all duration-300;
+}
+
+/* Subtle image hover zoom */
+.hover-zoom img {
+  @apply transition-transform duration-500 ease-out;
+}
+.hover-zoom:hover img {
+  @apply scale-105;
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Image Aspect Ratio Contain & Cover fixes */
+.aspect-card {
+  aspect-ratio: 4 / 3;
+}
