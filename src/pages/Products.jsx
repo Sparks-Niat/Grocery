@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, SlidersHorizontal, MessageSquare, Phone, X } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 
-export default function Products({ selectedCategory, setSelectedCategory, categories, products, storeInfo }) {
+export default function Products({ selectedCategory, setSelectedCategory, categories, products, storeInfo = {} }) {
   const [searchQuery, setSearchQuery] = useState('');
   
   // Accept external categories filter event
@@ -162,7 +162,7 @@ export default function Products({ selectedCategory, setSelectedCategory, catego
           
           <div className="flex gap-3 shrink-0 w-full md:w-auto">
             <a
-              href={`tel:${storeInfo.phone}`}
+              href={`tel:${storeInfo?.phone || ''}`}
               className="flex-1 md:flex-initial inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-primary hover:bg-primary-dark text-cream font-bold text-sm shadow transition-colors"
             >
               <Phone size={14} className="text-accent" />

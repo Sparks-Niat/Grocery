@@ -45,6 +45,7 @@ export default function App() {
             setSelectedCategory={setSelectedCategory} 
             categories={categories}
             products={products}
+            storeInfo={settings}
           />
         );
       case 'about':

@@ -102,7 +102,7 @@ export default function Contact({ storeInfo }) {
                     Opening Hours
                   </h4>
                   <div className="text-charcoal/80 leading-relaxed">
-                    {storeInfo.openingHours.map((h, i) => (
+                    {Array.isArray(storeInfo.openingHours) && storeInfo.openingHours.map((h, i) => (
                       <p key={i}>
                         <span className="font-semibold text-charcoal-dark">{h.days}</span>
                         <br />

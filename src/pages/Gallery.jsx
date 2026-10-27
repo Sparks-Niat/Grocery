@@ -3,6 +3,7 @@ import { X, ZoomIn, MapPin, Eye } from 'lucide-react';
 
 export default function Gallery({ storeInfo, gallery = [] }) {
   const [lightboxImage, setLightboxImage] = useState(null);
+  const displayGallery = gallery.length > 0 ? gallery : (storeInfo?.gallery || []);
 
   return (
     <div className="pt-24 pb-16 bg-cream min-h-screen">
@@ -24,7 +25,7 @@ export default function Gallery({ storeInfo, gallery = [] }) {
       {/* Gallery Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {gallery.map((item, idx) => (
+          {displayGallery.map((item, idx) => (
             <div 
               key={idx}
               onClick={() => setLightboxImage(item)}

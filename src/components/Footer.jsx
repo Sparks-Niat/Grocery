@@ -8,6 +8,15 @@ export default function Footer({ setActivePage, storeInfo, categories = [], foot
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const defaultFooterLinks = [
+    { id: 'f1', label: 'Home', path: '/' },
+    { id: 'f2', label: 'Products', path: '/products' },
+    { id: 'f3', label: 'About Us', path: '/about' },
+    { id: 'f4', label: 'Gallery', path: '/gallery' },
+    { id: 'f5', label: 'Contact', path: '/contact' }
+  ];
+  const displayFooterLinks = footerLinks.length > 0 ? footerLinks : defaultFooterLinks;
+
   const currentYear = new Date().getFullYear();
 
   return (
@@ -62,7 +71,7 @@ export default function Footer({ setActivePage, storeInfo, categories = [], foot
               Quick Links
             </h4>
             <ul className="space-y-3 text-sm">
-              {footerLinks.map(link => (
+              {displayFooterLinks.map(link => (
                 <li key={link.id}>
                   <button 
                     onClick={() => handleLinkClick(link.path)}
@@ -117,7 +126,7 @@ export default function Footer({ setActivePage, storeInfo, categories = [], foot
             <div className="flex items-start space-x-3 text-sm">
               <Clock size={16} className="text-accent shrink-0 mt-0.5" />
               <div>
-                {storeInfo.openingHours.map((h, i) => (
+                {Array.isArray(storeInfo.openingHours) && storeInfo.openingHours.map((h, i) => (
                   <p key={i}>
                     <span className="font-semibold text-white">{h.days}</span>: {h.time}
                   </p>

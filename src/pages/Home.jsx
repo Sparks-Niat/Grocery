@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard';
 export default function Home({ setActivePage, onCategorySelect, categories, products, storeInfo, heroTags = [], commitments = [], gallery = [] }) {
   const [lightboxImage, setLightboxImage] = useState(null);
   const featuredProducts = products.filter(p => p.featured);
+  const displayGallery = gallery.length > 0 ? gallery : (storeInfo?.gallery || []);
 
   const handleCategoryClick = (catId) => {
     onCategorySelect(catId);
@@ -145,9 +146,9 @@ export default function Home({ setActivePage, onCategorySelect, categories, prod
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {gallery.map((item, idx) => (
+            {displayGallery.map((item, idx) => (
               <div 
-                key={item.id}
+                key={item.id || idx}
                 onClick={() => setLightboxImage(item)}
                 className="group relative aspect-card rounded-2xl overflow-hidden shadow-sm hover:shadow-md cursor-pointer border border-cream-dark"
               >
@@ -268,7 +269,7 @@ export default function Home({ setActivePage, onCategorySelect, categories, prod
                         Opening Hours
                       </h4>
                       <div className="text-charcoal/80 text-sm">
-                        {storeInfo.openingHours.map((h, i) => (
+                        {Array.isArray(storeInfo.openingHours) && storeInfo.openingHours.map((h, i) => (
                           <p key={i}>
                             <span className="font-semibold text-charcoal-dark">{h.days}</span>
                             <br />
