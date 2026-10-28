@@ -29,7 +29,8 @@ const CAMEL_MAP = {
   customername: 'customerName',
   totalamount: 'totalAmount',
   orderid: 'orderId',
-  productid: 'productId'
+  productid: 'productId',
+  publicid: 'publicId'
 };
 
 function normalizeRow(row) {
@@ -89,7 +90,8 @@ async function initDB() {
       name TEXT,
       description TEXT,
       image TEXT,
-      "iconName" TEXT
+      "iconName" TEXT,
+      "publicId" TEXT
     )
   `);
 
@@ -103,7 +105,8 @@ async function initDB() {
       price REAL,
       "inStock" BOOLEAN DEFAULT true,
       "featured" BOOLEAN DEFAULT false,
-      description TEXT
+      description TEXT,
+      "publicId" TEXT
     )
   `);
 
@@ -168,9 +171,19 @@ async function initDB() {
       image TEXT,
       description TEXT,
       "isActive" BOOLEAN DEFAULT true,
-      "displayOrder" INTEGER
+      "displayOrder" INTEGER,
+      "publicId" TEXT
     )
   `);
+
+  // Migrate existing tables to have publicId column if they were created earlier
+  try {
+    await db.runAsync('ALTER TABLE categories ADD COLUMN IF NOT EXISTS "publicId" TEXT');
+    await db.runAsync('ALTER TABLE products ADD COLUMN IF NOT EXISTS "publicId" TEXT');
+    await db.runAsync('ALTER TABLE gallery_items ADD COLUMN IF NOT EXISTS "publicId" TEXT');
+  } catch (migErr) {
+    console.error('Column migration note:', migErr.message);
+  }
 
   await db.runAsync(`
     CREATE TABLE IF NOT EXISTS footer_links (

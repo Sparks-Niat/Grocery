@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import db from './db.js';
+import { uploadToCloudinary, deleteFromCloudinary } from './cloudinary.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -21,26 +22,26 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-replace-
 app.use(cors());
 app.use(express.json());
 
-// Create uploads directory if it doesn't exist
+// Backward-compatibility: Create uploads directory and serve static files if local files exist
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-
-// Setup static file serving for uploads
 app.use('/uploads', express.static(uploadDir));
 
-// Multer config for image upload
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+// Multer memory storage configuration with validation (5MB limit & image MIME types)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Allowed formats: JPEG, PNG, WEBP, GIF, and AVIF.'));
+    }
   }
 });
-const upload = multer({ storage: storage });
 
 // Authentication Middleware
 const authenticateToken = (req, res, next) => {
@@ -73,11 +74,62 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
-// --- IMAGE UPLOAD API ---
-app.post('/api/upload', authenticateToken, upload.single('image'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  const imageUrl = `/uploads/${req.file.filename}`;
-  res.json({ url: imageUrl });
+// --- CLOUDINARY IMAGE UPLOAD & DELETE API ---
+app.post('/api/upload', authenticateToken, (req, res) => {
+  upload.single('image')(req, res, async (err) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ error: 'File size exceeds maximum allowed limit of 5MB.' });
+      }
+      return res.status(400).json({ error: `Upload error: ${err.message}` });
+    } else if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file uploaded.' });
+    }
+
+    try {
+      const folderParam = req.body.folder ? `grocery-mart/${req.body.folder}` : 'grocery-mart';
+      const result = await uploadToCloudinary(req.file.buffer, { folder: folderParam });
+      
+      res.json({
+        success: true,
+        url: result.secure_url,
+        public_id: result.public_id,
+        publicId: result.public_id,
+        width: result.width,
+        height: result.height,
+        format: result.format,
+        bytes: result.bytes
+      });
+    } catch (uploadErr) {
+      console.error('Cloudinary upload failure:', uploadErr);
+      res.status(500).json({ error: uploadErr.message || 'Cloudinary upload failed.' });
+    }
+  });
+});
+
+app.delete('/api/upload', authenticateToken, async (req, res) => {
+  const targetId = req.body.public_id || req.body.publicId || req.query.public_id || req.query.publicId;
+
+  if (!targetId || typeof targetId !== 'string') {
+    return res.status(400).json({ error: 'Valid public_id is required for deletion.' });
+  }
+
+  // Security guard: Only allow deletion within the grocery-mart namespace
+  if (!targetId.startsWith('grocery-mart')) {
+    return res.status(400).json({ error: 'Deletion restricted to grocery-mart assets only.' });
+  }
+
+  try {
+    const result = await deleteFromCloudinary(targetId);
+    res.json({ success: true, result });
+  } catch (deleteErr) {
+    console.error('Cloudinary deletion failure:', deleteErr);
+    res.status(500).json({ error: deleteErr.message || 'Failed to delete asset from Cloudinary.' });
+  }
 });
 
 // --- CATEGORIES API ---
@@ -91,11 +143,11 @@ app.get('/api/categories', async (req, res) => {
 });
 
 app.post('/api/categories', authenticateToken, async (req, res) => {
-  const { id, name, description, image, iconName } = req.body;
+  const { id, name, description, image, iconName, publicId } = req.body;
   try {
     await db.runAsync(
-      'INSERT INTO categories (id, name, description, image, "iconName") VALUES ($1, $2, $3, $4, $5)',
-      [id, name, description, image, iconName]
+      'INSERT INTO categories (id, name, description, image, "iconName", "publicId") VALUES ($1, $2, $3, $4, $5, $6)',
+      [id, name, description, image, iconName, publicId || null]
     );
     res.json({ success: true });
   } catch (err) {
@@ -104,11 +156,18 @@ app.post('/api/categories', authenticateToken, async (req, res) => {
 });
 
 app.put('/api/categories/:id', authenticateToken, async (req, res) => {
-  const { name, description, image, iconName } = req.body;
+  const { name, description, image, iconName, publicId } = req.body;
   try {
+    if (publicId) {
+      const existing = await db.getAsync('SELECT "publicId" FROM categories WHERE id = $1', [req.params.id]);
+      if (existing?.publicId && existing.publicId !== publicId && existing.publicId.startsWith('grocery-mart/')) {
+        try { await deleteFromCloudinary(existing.publicId); } catch (_) {}
+      }
+    }
+
     await db.runAsync(
-      'UPDATE categories SET name = $1, description = $2, image = $3, "iconName" = $4 WHERE id = $5',
-      [name, description, image, iconName, req.params.id]
+      'UPDATE categories SET name = $1, description = $2, image = $3, "iconName" = $4, "publicId" = COALESCE($5, "publicId") WHERE id = $6',
+      [name, description, image, iconName, publicId || null, req.params.id]
     );
     res.json({ success: true });
   } catch (err) {
@@ -118,6 +177,10 @@ app.put('/api/categories/:id', authenticateToken, async (req, res) => {
 
 app.delete('/api/categories/:id', authenticateToken, async (req, res) => {
   try {
+    const existing = await db.getAsync('SELECT "publicId" FROM categories WHERE id = $1', [req.params.id]);
+    if (existing?.publicId && existing.publicId.startsWith('grocery-mart/')) {
+      try { await deleteFromCloudinary(existing.publicId); } catch (_) {}
+    }
     await db.runAsync("DELETE FROM categories WHERE id = $1", [req.params.id]);
     res.json({ success: true });
   } catch (err) {
@@ -141,11 +204,11 @@ app.get('/api/products', async (req, res) => {
 });
 
 app.post('/api/products', authenticateToken, async (req, res) => {
-  const { id, name, categoryId, image, packSize, price, inStock, featured, description } = req.body;
+  const { id, name, categoryId, image, packSize, price, inStock, featured, description, publicId } = req.body;
   try {
     await db.runAsync(
-      'INSERT INTO products (id, name, "categoryId", image, "packSize", price, "inStock", "featured", description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-      [id, name, categoryId, image, packSize, price, Boolean(inStock), Boolean(featured), description]
+      'INSERT INTO products (id, name, "categoryId", image, "packSize", price, "inStock", "featured", description, "publicId") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      [id, name, categoryId, image, packSize, price, Boolean(inStock), Boolean(featured), description, publicId || null]
     );
     res.json({ success: true });
   } catch (err) {
@@ -154,11 +217,18 @@ app.post('/api/products', authenticateToken, async (req, res) => {
 });
 
 app.put('/api/products/:id', authenticateToken, async (req, res) => {
-  const { name, categoryId, image, packSize, price, inStock, featured, description } = req.body;
+  const { name, categoryId, image, packSize, price, inStock, featured, description, publicId } = req.body;
   try {
+    if (publicId) {
+      const existing = await db.getAsync('SELECT "publicId" FROM products WHERE id = $1', [req.params.id]);
+      if (existing?.publicId && existing.publicId !== publicId && existing.publicId.startsWith('grocery-mart/')) {
+        try { await deleteFromCloudinary(existing.publicId); } catch (_) {}
+      }
+    }
+
     await db.runAsync(
-      'UPDATE products SET name = $1, "categoryId" = $2, image = $3, "packSize" = $4, price = $5, "inStock" = $6, "featured" = $7, description = $8 WHERE id = $9',
-      [name, categoryId, image, packSize, price, Boolean(inStock), Boolean(featured), description, req.params.id]
+      'UPDATE products SET name = $1, "categoryId" = $2, image = $3, "packSize" = $4, price = $5, "inStock" = $6, "featured" = $7, description = $8, "publicId" = COALESCE($9, "publicId") WHERE id = $10',
+      [name, categoryId, image, packSize, price, Boolean(inStock), Boolean(featured), description, publicId || null, req.params.id]
     );
     res.json({ success: true });
   } catch (err) {
@@ -168,6 +238,10 @@ app.put('/api/products/:id', authenticateToken, async (req, res) => {
 
 app.delete('/api/products/:id', authenticateToken, async (req, res) => {
   try {
+    const existing = await db.getAsync('SELECT "publicId" FROM products WHERE id = $1', [req.params.id]);
+    if (existing?.publicId && existing.publicId.startsWith('grocery-mart/')) {
+      try { await deleteFromCloudinary(existing.publicId); } catch (_) {}
+    }
     await db.runAsync("DELETE FROM products WHERE id = $1", [req.params.id]);
     res.json({ success: true });
   } catch (err) {
@@ -285,6 +359,12 @@ cmsTables.forEach(table => {
   // DELETE
   app.delete(`/api/${table}/:id`, authenticateToken, async (req, res) => {
     try {
+      if (table === 'gallery_items') {
+        const existing = await db.getAsync(`SELECT "publicId" FROM gallery_items WHERE id = $1`, [req.params.id]);
+        if (existing?.publicId && existing.publicId.startsWith('grocery-mart/')) {
+          try { await deleteFromCloudinary(existing.publicId); } catch (_) {}
+        }
+      }
       await db.runAsync(`DELETE FROM ${table} WHERE id = $1`, [req.params.id]);
       res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
@@ -321,5 +401,5 @@ app.get('/api/public-data', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} (PostgreSQL/Neon)`);
+  console.log(`Server running on port ${PORT} (PostgreSQL/Neon + Cloudinary)`);
 });
