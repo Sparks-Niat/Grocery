@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Upload, Loader2, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function GalleryEditor() {
   const [items, setItems] = useState([]);
@@ -24,7 +25,7 @@ export default function GalleryEditor() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/gallery_items');
+      const res = await fetch(getApiUrl('/api/gallery_items'));
       if (res.ok) setItems(await res.json());
     } catch (err) {
       console.error(err);
@@ -60,7 +61,7 @@ export default function GalleryEditor() {
     setUploading(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch('/api/upload', {
+      const res = await fetch(getApiUrl('/api/upload'), {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: data
@@ -131,10 +132,10 @@ export default function GalleryEditor() {
 
     try {
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem ? `/api/gallery_items/${editingItem.id}` : '/api/gallery_items';
+      const endpoint = editingItem ? `/api/gallery_items/${editingItem.id}` : '/api/gallery_items';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
@@ -156,7 +157,7 @@ export default function GalleryEditor() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this gallery image? The Cloudinary asset will also be removed.")) return;
     const token = localStorage.getItem('adminToken');
-    await fetch(`/api/gallery_items/${id}`, {
+    await fetch(getApiUrl(`/api/gallery_items/${id}`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

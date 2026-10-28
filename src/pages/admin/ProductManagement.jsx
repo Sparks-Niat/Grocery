@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, X, Loader2, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function ProductManagement() {
   const [products, setProducts] = useState([]);
@@ -37,8 +38,8 @@ export default function ProductManagement() {
   const fetchData = async () => {
     try {
       const [prodRes, catRes] = await Promise.all([
-        fetch('/api/products'),
-        fetch('/api/categories')
+        fetch(getApiUrl('/api/products')),
+        fetch(getApiUrl('/api/categories'))
       ]);
       if (prodRes.ok) setProducts(await prodRes.json());
       if (catRes.ok) setCategories(await catRes.json());
@@ -132,7 +133,7 @@ export default function ProductManagement() {
     formDataObj.append('folder', 'products');
     
     const token = localStorage.getItem('adminToken');
-    const res = await fetch('/api/upload', {
+    const res = await fetch(getApiUrl('/api/upload'), {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formDataObj
@@ -167,10 +168,10 @@ export default function ProductManagement() {
         price: parseFloat(formData.price) 
       };
       const method = editingProduct ? 'PUT' : 'POST';
-      const url = editingProduct ? `/api/products/${editingProduct.id}` : '/api/products';
+      const endpoint = editingProduct ? `/api/products/${editingProduct.id}` : '/api/products';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 
           'Content-Type': 'application/json',
@@ -198,7 +199,7 @@ export default function ProductManagement() {
     if (!window.confirm("Are you sure you want to delete this product? Associated Cloudinary images will also be removed.")) return;
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(getApiUrl(`/api/products/${id}`), {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

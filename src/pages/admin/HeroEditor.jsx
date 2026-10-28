@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Save } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function HeroEditor() {
   const [items, setItems] = useState([]);
@@ -17,8 +18,8 @@ export default function HeroEditor() {
   const fetchData = async () => {
     try {
       const [tagsRes, settingsRes] = await Promise.all([
-        fetch('/api/hero_value_tags'),
-        fetch('/api/settings')
+        fetch(getApiUrl('/api/hero_value_tags')),
+        fetch(getApiUrl('/api/settings'))
       ]);
       if (tagsRes.ok) setItems(await tagsRes.json());
       if (settingsRes.ok) {
@@ -37,7 +38,7 @@ export default function HeroEditor() {
     setSavingSettings(true);
     const token = localStorage.getItem('adminToken');
     try {
-      await fetch('/api/settings', {
+      await fetch(getApiUrl('/api/settings'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(settings)
@@ -70,10 +71,10 @@ export default function HeroEditor() {
     e.preventDefault();
     try {
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem ? `/api/hero_value_tags/${editingItem.id}` : '/api/hero_value_tags';
+      const endpoint = editingItem ? `/api/hero_value_tags/${editingItem.id}` : '/api/hero_value_tags';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
@@ -91,7 +92,7 @@ export default function HeroEditor() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this tag?")) return;
     const token = localStorage.getItem('adminToken');
-    await fetch(`/api/hero_value_tags/${id}`, {
+    await fetch(getApiUrl(`/api/hero_value_tags/${id}`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

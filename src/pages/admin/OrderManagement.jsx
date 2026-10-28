@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function OrderManagement() {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ export default function OrderManagement() {
   const fetchOrders = async () => {
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch('/api/orders', {
+      const res = await fetch(getApiUrl('/api/orders'), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) setOrders(await res.json());
@@ -28,7 +29,7 @@ export default function OrderManagement() {
   const updateOrderStatus = async (id, newStatus) => {
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch(`/api/orders/${id}/status`, {
+      const res = await fetch(getApiUrl(`/api/orders/${id}/status`), {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

@@ -6,7 +6,12 @@ import { products } from '../src/data/products.js';
 
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_u9f8qhSgGQmM@ep-weathered-hall-b4x80hi0-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  console.error('CRITICAL: DATABASE_URL environment variable is missing.');
+  console.error('Please configure DATABASE_URL in your Render dashboard or .env file.');
+}
 
 const pool = new pg.Pool({
   connectionString,

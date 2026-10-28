@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function NavigationEditor() {
   const [items, setItems] = useState([]);
@@ -14,7 +15,7 @@ export default function NavigationEditor() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/navigation_items');
+      const res = await fetch(getApiUrl('/api/navigation_items'));
       if (res.ok) setItems(await res.json());
     } catch (err) {
       console.error(err);
@@ -43,10 +44,10 @@ export default function NavigationEditor() {
     e.preventDefault();
     try {
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem ? `/api/navigation_items/${editingItem.id}` : '/api/navigation_items';
+      const endpoint = editingItem ? `/api/navigation_items/${editingItem.id}` : '/api/navigation_items';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 
           'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ export default function NavigationEditor() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this navigation item?")) return;
     const token = localStorage.getItem('adminToken');
-    await fetch(`/api/navigation_items/${id}`, {
+    await fetch(getApiUrl(`/api/navigation_items/${id}`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

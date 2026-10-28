@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { storeInfo as defaultStoreInfo } from '../data/store';
+import { getApiUrl } from '../utils/api';
 
 export function useStoreData() {
   const [categories, setCategories] = useState([]);
@@ -19,7 +20,7 @@ export function useStoreData() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('/api/public-data');
+        const res = await fetch(getApiUrl('/api/public-data'));
         if (res.ok) {
           const data = await res.json();
           

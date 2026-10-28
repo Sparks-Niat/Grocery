@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, X, Upload, Loader2, Image as ImageIcon, AlertCircle } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function CategoryManagement() {
   const [categories, setCategories] = useState([]);
@@ -32,7 +33,7 @@ export default function CategoryManagement() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/categories');
+      const res = await fetch(getApiUrl('/api/categories'));
       if (res.ok) setCategories(await res.json());
     } catch (err) {
       console.error(err);
@@ -116,7 +117,7 @@ export default function CategoryManagement() {
     formDataObj.append('folder', 'categories');
     
     const token = localStorage.getItem('adminToken');
-    const res = await fetch('/api/upload', {
+    const res = await fetch(getApiUrl('/api/upload'), {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formDataObj
@@ -146,10 +147,10 @@ export default function CategoryManagement() {
 
       const payload = { ...formData, image: imageUrl, publicId };
       const method = editingCategory ? 'PUT' : 'POST';
-      const url = editingCategory ? `/api/categories/${editingCategory.id}` : '/api/categories';
+      const endpoint = editingCategory ? `/api/categories/${editingCategory.id}` : '/api/categories';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 
           'Content-Type': 'application/json',
@@ -178,7 +179,7 @@ export default function CategoryManagement() {
     
     const token = localStorage.getItem('adminToken');
     try {
-      const res = await fetch(`/api/categories/${id}`, {
+      const res = await fetch(getApiUrl(`/api/categories/${id}`), {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

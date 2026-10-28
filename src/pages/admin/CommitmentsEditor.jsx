@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function CommitmentsEditor() {
   const [items, setItems] = useState([]);
@@ -14,7 +15,7 @@ export default function CommitmentsEditor() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/commitments');
+      const res = await fetch(getApiUrl('/api/commitments'));
       if (res.ok) setItems(await res.json());
     } catch (err) {
       console.error(err);
@@ -43,10 +44,10 @@ export default function CommitmentsEditor() {
     e.preventDefault();
     try {
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem ? `/api/commitments/${editingItem.id}` : '/api/commitments';
+      const endpoint = editingItem ? `/api/commitments/${editingItem.id}` : '/api/commitments';
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(endpoint), {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
@@ -64,7 +65,7 @@ export default function CommitmentsEditor() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this commitment?")) return;
     const token = localStorage.getItem('adminToken');
-    await fetch(`/api/commitments/${id}`, {
+    await fetch(getApiUrl(`/api/commitments/${id}`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

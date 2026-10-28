@@ -19,8 +19,93 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-replace-in-production';
 
-app.use(cors());
+// --- Production CORS Configuration ---
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000'
+];
+
+if (process.env.FRONTEND_URL) {
+  process.env.FRONTEND_URL.split(',').forEach(u => {
+    const trimmed = u.trim().replace(/\/+$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach(u => {
+    const trimmed = u.trim().replace(/\/+$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true; // Server-to-server, mobile, curl
+  const normalized = origin.replace(/\/+$/, '');
+  if (allowedOrigins.includes(normalized)) return true;
+
+  // Automatically allow all Vercel production and preview deployment URLs
+  try {
+    const { hostname } = new URL(origin);
+    if (hostname.endsWith('.vercel.app')) return true;
+  } catch (_) {}
+
+  // Allow localhost origins in development
+  if (process.env.NODE_ENV !== 'production') {
+    try {
+      const { hostname } = new URL(origin);
+      if (hostname === 'localhost' || hostname === '127.0.0.1') return true;
+    } catch (_) {}
+  }
+
+  return false;
+};
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS policy: Origin '${origin}' is not authorized.`));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
 app.use(express.json());
+
+// --- Health Check & Root Diagnostics ---
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'Grocery Store Backend API',
+    database: 'Neon PostgreSQL',
+    storage: 'Cloudinary',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/health', async (req, res) => {
+  try {
+    const result = await db.query('SELECT 1 as alive');
+    const isDbAlive = result?.rows?.[0]?.alive === 1;
+    res.json({
+      status: 'healthy',
+      database: isDbAlive ? 'connected' : 'error',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    res.status(503).json({
+      status: 'unhealthy',
+      database: 'disconnected',
+      error: err.message
+    });
+  }
+});
 
 // Backward-compatibility: Create uploads directory and serve static files if local files exist
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');

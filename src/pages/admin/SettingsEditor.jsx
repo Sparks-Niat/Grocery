@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function SettingsEditor() {
   const [settings, setSettings] = useState({
@@ -22,7 +23,7 @@ export default function SettingsEditor() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch('/api/settings');
+        const res = await fetch(getApiUrl('/api/settings'));
         if (res.ok) {
           const data = await res.json();
           // Merge fetched data with default structure
@@ -50,7 +51,7 @@ export default function SettingsEditor() {
     const token = localStorage.getItem('adminToken');
     
     try {
-      const res = await fetch('/api/settings', {
+      const res = await fetch(getApiUrl('/api/settings'), {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

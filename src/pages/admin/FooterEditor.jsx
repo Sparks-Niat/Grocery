@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Save } from 'lucide-react';
+import { getApiUrl } from '../../utils/api';
 
 export default function FooterEditor() {
   const [links, setLinks] = useState([]);
@@ -20,9 +21,9 @@ export default function FooterEditor() {
   const fetchData = async () => {
     try {
       const [linksRes, socialsRes, settingsRes] = await Promise.all([
-        fetch('/api/footer_links'),
-        fetch('/api/social_links'),
-        fetch('/api/settings')
+        fetch(getApiUrl('/api/footer_links')),
+        fetch(getApiUrl('/api/social_links')),
+        fetch(getApiUrl('/api/settings'))
       ]);
       if (linksRes.ok) setLinks(await linksRes.json());
       if (socialsRes.ok) setSocials(await socialsRes.json());
@@ -42,7 +43,7 @@ export default function FooterEditor() {
     setSavingSettings(true);
     const token = localStorage.getItem('adminToken');
     try {
-      await fetch('/api/settings', {
+      await fetch(getApiUrl('/api/settings'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(settings)
@@ -81,10 +82,10 @@ export default function FooterEditor() {
     try {
       const endpoint = modalType === 'link' ? 'footer_links' : 'social_links';
       const method = editingItem ? 'PUT' : 'POST';
-      const url = editingItem ? `/api/${endpoint}/${editingItem.id}` : `/api/${endpoint}`;
+      const targetPath = editingItem ? `/api/${endpoint}/${editingItem.id}` : `/api/${endpoint}`;
       const token = localStorage.getItem('adminToken');
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(targetPath), {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(formData)
@@ -103,7 +104,7 @@ export default function FooterEditor() {
     if (!window.confirm("Delete this item?")) return;
     const endpoint = type === 'link' ? 'footer_links' : 'social_links';
     const token = localStorage.getItem('adminToken');
-    await fetch(`/api/${endpoint}/${id}`, {
+    await fetch(getApiUrl(`/api/${endpoint}/${id}`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });

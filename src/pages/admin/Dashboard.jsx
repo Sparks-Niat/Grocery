@@ -15,6 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
+import { getApiUrl } from '../../utils/api';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -41,8 +42,8 @@ export default function Dashboard() {
     const fetchStats = async () => {
       try {
         const [prodRes, catRes] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/categories')
+          fetch(getApiUrl('/api/products')),
+          fetch(getApiUrl('/api/categories'))
         ]);
         
         if (prodRes.ok && catRes.ok) {
