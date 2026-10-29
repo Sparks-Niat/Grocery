@@ -461,23 +461,43 @@ app.get('/api/public-data', async (req, res) => {
   try {
     const data = {};
     for (const table of cmsTables) {
-      const rows = await db.allAsync(`SELECT * FROM ${table} WHERE "isActive" = true ORDER BY "displayOrder" ASC`);
-      data[table] = rows.map(r => ({ ...r, isActive: Boolean(r.isActive) }));
+      try {
+        const rows = await db.allAsync(`SELECT * FROM ${table} WHERE "isActive" = true ORDER BY "displayOrder" ASC`);
+        data[table] = rows.map(r => ({ ...r, isActive: Boolean(r.isActive) }));
+      } catch (cmsErr) {
+        console.warn(`Notice: query for CMS table ${table} failed:`, cmsErr.message);
+        data[table] = [];
+      }
     }
     
-    const settings = await db.allAsync("SELECT * FROM website_settings");
-    data.settings = {};
-    settings.forEach(s => data.settings[s.key] = s.value);
+    try {
+      const settings = await db.allAsync("SELECT * FROM website_settings");
+      data.settings = {};
+      settings.forEach(s => data.settings[s.key] = s.value);
+    } catch (setErr) {
+      console.warn("Notice: query for website_settings failed:", setErr.message);
+      data.settings = {};
+    }
     
-    const categories = await db.allAsync("SELECT * FROM categories ORDER BY name ASC");
-    data.categories = categories;
+    try {
+      const categories = await db.allAsync("SELECT * FROM categories ORDER BY name ASC");
+      data.categories = categories;
+    } catch (catErr) {
+      console.error("Error fetching categories for public-data:", catErr.message);
+      data.categories = [];
+    }
 
-    const products = await db.allAsync("SELECT * FROM products ORDER BY name ASC");
-    data.products = products.map(p => ({
-      ...p,
-      inStock: Boolean(p.inStock),
-      featured: Boolean(p.featured)
-    }));
+    try {
+      const products = await db.allAsync("SELECT * FROM products ORDER BY name ASC");
+      data.products = products.map(p => ({
+        ...p,
+        inStock: Boolean(p.inStock),
+        featured: Boolean(p.featured)
+      }));
+    } catch (prodErr) {
+      console.error("Error fetching products for public-data:", prodErr.message);
+      data.products = [];
+    }
 
     res.json(data);
   } catch (err) {

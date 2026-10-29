@@ -7,7 +7,8 @@ import ProductCard from '../components/ProductCard';
 
 export default function Home({ setActivePage, onCategorySelect, categories, products, storeInfo, heroTags = [], commitments = [], gallery = [] }) {
   const [lightboxImage, setLightboxImage] = useState(null);
-  const featuredProducts = products.filter(p => p.featured);
+  const explicitFeatured = products.filter(p => p.featured);
+  const featuredProducts = explicitFeatured.length > 0 ? explicitFeatured : products.slice(0, 8);
   const displayGallery = gallery.length > 0 ? gallery : (storeInfo?.gallery || []);
 
   const handleCategoryClick = (catId) => {

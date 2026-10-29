@@ -14,12 +14,14 @@ export default function Products({ selectedCategory, setSelectedCategory, catego
     return () => window.removeEventListener('filter-category', handleFilter);
   }, [setSelectedCategory]);
 
-  // Filter products by selected category AND search query
-  const filteredProducts = products.filter((prod) => {
+  // Filter products safely by selected category AND search query
+  const cleanSearch = (searchQuery || '').trim().toLowerCase();
+  const filteredProducts = (products || []).filter((prod) => {
+    if (!prod) return false;
     const matchesCategory = selectedCategory === 'all' || prod.categoryId === selectedCategory;
-    const matchesSearch = prod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          prod.packSize.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const nameMatch = (prod.name || '').toLowerCase().includes(cleanSearch);
+    const packMatch = (prod.packSize || '').toLowerCase().includes(cleanSearch);
+    return matchesCategory && (nameMatch || packMatch);
   });
 
   return (
