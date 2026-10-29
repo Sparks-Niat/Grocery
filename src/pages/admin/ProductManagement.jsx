@@ -290,7 +290,7 @@ export default function ProductManagement() {
                       )}
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-800">
-                      ₹{product.price}
+                      {product.price != null && product.price !== '' ? `₹${product.price}` : '-'}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex px-2 py-1 text-xs rounded-full font-semibold ${

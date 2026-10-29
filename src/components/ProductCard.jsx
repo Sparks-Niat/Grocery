@@ -3,8 +3,9 @@ import { MessageSquare, Check, Phone } from 'lucide-react';
 import { storeInfo } from '../data/store';
 
 export default function ProductCard({ product, categoryName }) {
+  const packSuffix = product.packSize ? ` (${product.packSize})` : '';
   const whatsappUrl = `https://wa.me/${(storeInfo.whatsappNumber || storeInfo.whatsapp || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-    `Hello, I saw "${product.name} (${product.packSize})" on your website. Is it available in stock today?`
+    `Hello, I saw "${product.name}${packSuffix}" on your website. Is it available in stock today?`
   )}`;
 
   return (
@@ -40,18 +41,18 @@ export default function ProductCard({ product, categoryName }) {
         </h3>
         
         {/* Pack Size */}
-        <p className="text-xs text-charcoal/60 mb-3">
-          Pack size: {product.packSize}
+        <p className="text-xs text-charcoal/60 mb-3 min-h-[1rem]">
+          {product.packSize ? `Pack size: ${product.packSize}` : '\u00A0'}
         </p>
 
         {/* Pricing and Details */}
         <div className="mt-auto pt-3 border-t border-cream-dark/50 flex items-end justify-between">
           <div>
             <span className="text-[10px] text-charcoal/50 block font-medium uppercase leading-none mb-1">
-              Sample Price
+              {product.price != null && product.price !== '' ? 'Sample Price' : 'Price'}
             </span>
             <span className="font-display font-extrabold text-primary text-lg">
-              ₹{product.price}
+              {product.price != null && product.price !== '' ? `₹${product.price}` : 'Available'}
             </span>
           </div>
 
