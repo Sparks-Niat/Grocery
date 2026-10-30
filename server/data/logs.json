@@ -1,0 +1,44 @@
+[
+  {
+    "id": "log-1792690088958-278",
+    "action": "STOCK_ADJUSTED",
+    "details": "Adjusted stock for \"Bingo Mad Angles / Ridge\": 25 -> 35 (Automated stock test adjustment)",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:28:08.958Z"
+  },
+  {
+    "id": "log-1792690088943-204",
+    "action": "PRODUCT_DELETED",
+    "details": "Removed product: \"Automated Test Item\" (ID: test-1792690088919)",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:28:08.943Z"
+  },
+  {
+    "id": "log-1792690088935-98",
+    "action": "PRICE_UPDATED",
+    "details": "Price changed for \"Automated Test Item\" from ₹20 to ₹25",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:28:08.935Z"
+  },
+  {
+    "id": "log-1792690088924-626",
+    "action": "PRODUCT_CREATED",
+    "details": "Added new product: Automated Test Item (₹20)",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:28:08.924Z"
+  },
+  {
+    "id": "log-1792690088895-491",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin joelramireddy@gmail.com logged in successfully",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:28:08.895Z"
+  },
+  {
+    "id": "log-1",
+    "action": "INITIALIZE_CATALOG",
+    "details": "Seeded 91 official inventory products for Sri Manikanta Sai General Store",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:17:50.555Z"
+  }
+]

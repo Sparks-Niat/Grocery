@@ -1,0 +1,25 @@
+[
+  {
+    "id": "log-stk-1792690088955",
+    "timestamp": "2026-10-22T17:28:08.955Z",
+    "productId": "snk-bingo",
+    "productName": "Bingo Mad Angles / Ridge",
+    "adjustment": "+10",
+    "previousStock": 25,
+    "newStock": 35,
+    "reason": "Automated stock test adjustment",
+    "unit": "Small Pack",
+    "admin": "joelramireddy@gmail.com"
+  },
+  {
+    "id": "log-stk-1",
+    "productId": "snk-bingo",
+    "productName": "Bingo Mad Angles / Ridge",
+    "adjustment": "+50",
+    "previousStock": 0,
+    "newStock": 50,
+    "reason": "Initial Store Opening Stock Count",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-22T17:17:50.541Z"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cust-1",
+    "name": "K. Venkateswara Rao",
+    "phone": "+91 98480 12345",
+    "address": "Near Gandhi Center, Nandigama",
+    "totalOrders": 1,
+    "lastOrderDate": "2026-10-22T13:17:50.554Z",
+    "status": "Active"
+  },
+  {
+    "id": "cust-2",
+    "name": "S. Lakshmi",
+    "phone": "+91 94401 67890",
+    "address": "Temple Road, Nandigama",
+    "totalOrders": 1,
+    "lastOrderDate": "2026-10-22T16:17:50.554Z",
+    "status": "Active"
+  }
+]

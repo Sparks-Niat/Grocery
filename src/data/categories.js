@@ -1,0 +1,100 @@
+export const categories = [
+  {
+    id: "beverages",
+    name: "Beverages & Dairy",
+    description: "Cool drinks, water, soda, milk, curd, and buttermilk.",
+    image: "/images/beverages.jpg",
+    iconName: "CupSoda"
+  },
+  {
+    id: "snacks",
+    name: "Snacks, Biscuits & Chocolates",
+    description: "Chips, biscuits, chocolates, papads, and savory snacks.",
+    image: "/images/snacks.jpg",
+    iconName: "Cookie"
+  },
+  {
+    id: "grocery",
+    name: "Grocery Essentials",
+    description: "Rice, wheat, dals, sugar, flour, and daily staples.",
+    image: "/images/grocery.jpg",
+    iconName: "Wheat"
+  },
+  {
+    id: "kitchen",
+    name: "Tea, Coffee & Kitchen",
+    description: "Tea powders, coffee, spices, cooking oils, and pantry supplies.",
+    image: "/images/kitchen.jpg",
+    iconName: "Flame"
+  },
+  {
+    id: "pulses-grains",
+    name: "Pulses, Grains & Flours",
+    description: "Dals, pappu, ginjalu, pindilu, ravva, and cooking essentials.",
+    image: "/images/grocery.jpg",
+    iconName: "Wheat"
+  },
+  {
+    id: "fresh-produce",
+    name: "Fresh Produce",
+    description: "Onion, potato, tomato, ginger, garlic, and fresh vegetables.",
+    image: "/images/fresh-produce.jpg",
+    iconName: "Apple"
+  },
+  {
+    id: "personal-care",
+    name: "Personal Care",
+    description: "Soap, shampoo, handwash, powder, and grooming items.",
+    image: "/images/personal-care.jpg",
+    iconName: "Sparkles"
+  },
+  {
+    id: "home-cleaning",
+    name: "Home & Cleaning",
+    description: "Detergent, dishwash, cloth soap, and cleaning supplies.",
+    image: "/images/home-cleaning.jpg",
+    iconName: "Trash2"
+  },
+  {
+    id: "stationery",
+    name: "Stationery",
+    description: "Pens, notebooks, registers, glue, and school/office supplies.",
+    image: "/images/stationery.jpg",
+    iconName: "PenTool"
+  },
+  {
+    id: "baby-care",
+    name: "Baby Care",
+    description: "Diapers, wipes, baby soaps, baby food, and powder.",
+    image: "/images/personal-care.jpg",
+    iconName: "Baby"
+  },
+  {
+    id: "packaged-foods",
+    name: "Packaged Foods",
+    description: "Pickles, ketchup, jams, oats, cornflakes, and sauces.",
+    image: "/images/snacks.jpg",
+    iconName: "Package"
+  },
+  {
+    id: "household-utilities",
+    name: "Household Utilities",
+    description: "AA/AAA batteries, LED bulbs, candles, and safety clips.",
+    image: "/images/stationery.jpg",
+    iconName: "Lightbulb"
+  },
+  {
+    id: "daily-essentials",
+    name: "Daily Essentials",
+    description: "Umbrellas, matchboxes, ropes, and other everyday sundries.",
+    image: "/images/grocery.jpg",
+    iconName: "CalendarDays"
+  },
+  {
+    id: "accessories",
+    name: "Accessories & Other Items",
+    description: "Bangles, fashion accessories, and miscellaneous items.",
+    image: "/images/stationery.jpg",
+    iconName: "Gem"
+  }
+];

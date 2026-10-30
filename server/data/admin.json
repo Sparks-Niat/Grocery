@@ -1,0 +1,10 @@
+[
+  {
+    "id": "admin-1",
+    "email": "joelramireddy@gmail.com",
+    "name": "Joel Rami Reddy",
+    "role": "owner",
+    "passwordHash": "$2b$10$33LQtKqsf3dP/6cpsK3Izeqvpm.JA2CIpPtWDpLSiGVwqvibJTNW.",
+    "createdAt": "2026-10-22T17:17:50.538Z"
+  }
+]

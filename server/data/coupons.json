@@ -1,0 +1,20 @@
+[
+  {
+    "id": "coup-1",
+    "code": "WELCOME50",
+    "discountType": "flat",
+    "discountValue": 50,
+    "minOrderValue": 300,
+    "isActive": true,
+    "expiryDate": "2027-12-31"
+  },
+  {
+    "id": "coup-2",
+    "code": "FESTIVE10",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "minOrderValue": 500,
+    "isActive": true,
+    "expiryDate": "2027-12-31"
+  }
+]

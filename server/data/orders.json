@@ -1,0 +1,76 @@
+[
+  {
+    "id": "ORD-1001",
+    "orderDate": "2026-10-22T13:17:50.540Z",
+    "customerName": "K. Venkateswara Rao",
+    "customerPhone": "+91 98480 12345",
+    "deliveryAddress": "Near Gandhi Center, Nandigama",
+    "items": [
+      {
+        "id": "snk-bingo",
+        "name": "Bingo Mad Angles / Ridge",
+        "price": 10,
+        "quantity": 2,
+        "total": 20
+      },
+      {
+        "id": "tea-3roses",
+        "name": "3 Roses Tea Powder",
+        "price": 75,
+        "quantity": 1,
+        "total": 75
+      },
+      {
+        "id": "dal-kandi",
+        "name": "Kandi Pappu (Toor Dal)",
+        "price": 85,
+        "quantity": 2,
+        "total": 170
+      }
+    ],
+    "subtotal": 265,
+    "deliveryCharge": 20,
+    "total": 285,
+    "paymentMethod": "Cash on Delivery",
+    "paymentStatus": "Collected on Delivery",
+    "orderStatus": "Completed",
+    "notes": "Regular customer"
+  },
+  {
+    "id": "ORD-1002",
+    "orderDate": "2026-10-22T16:17:50.540Z",
+    "customerName": "S. Lakshmi",
+    "customerPhone": "+91 94401 67890",
+    "deliveryAddress": "Temple Road, Nandigama",
+    "items": [
+      {
+        "id": "bisc-goodday",
+        "name": "Britannia Good Day Biscuits",
+        "price": 10,
+        "quantity": 4,
+        "total": 40
+      },
+      {
+        "id": "dairy-milk",
+        "name": "Milk (Fresh / Packet)",
+        "price": 34,
+        "quantity": 2,
+        "total": 68
+      },
+      {
+        "id": "clean-vim",
+        "name": "Vim Soap (Dishwash Bar)",
+        "price": 10,
+        "quantity": 2,
+        "total": 20
+      }
+    ],
+    "subtotal": 128,
+    "deliveryCharge": 20,
+    "total": 148,
+    "paymentMethod": "UPI / QR Code",
+    "paymentStatus": "Paid Online",
+    "orderStatus": "Ready for Delivery",
+    "notes": "Leave with security if not answering"
+  }
+]
