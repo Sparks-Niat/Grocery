@@ -446,14 +446,17 @@
     "subcategory": "Shampoos",
     "image": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80",
     "packSize": "Sachet / Bottle",
-    "price": 3,
+    "price": 1,
     "priceNote": "provisional",
     "inStock": true,
     "stock": 25,
     "lowStockThreshold": 5,
     "isActive": true,
     "brand": "General",
-    "createdAt": "2026-10-22T17:17:50.435Z"
+    "createdAt": "2026-10-22T17:17:50.435Z",
+    "variants": [],
+    "description": "",
+    "updatedAt": "2026-10-30T18:03:46.546Z"
   },
   {
     "id": "shmp-sunsilk",

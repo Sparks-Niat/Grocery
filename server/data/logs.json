@@ -1,5 +1,26 @@
 [
   {
+    "id": "log-1793383426554-796",
+    "action": "PRICE_UPDATED",
+    "details": "Price changed for \"Chik Shampoo\" from ₹0 to ₹1",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-30T18:03:46.554Z"
+  },
+  {
+    "id": "log-1793383415991-929",
+    "action": "PRICE_UPDATED",
+    "details": "Price changed for \"Chik Shampoo\" from ₹3 to ₹0",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-30T18:03:35.991Z"
+  },
+  {
+    "id": "log-1793383170002-305",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin joelramireddy@gmail.com logged in successfully",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-10-30T17:59:30.002Z"
+  },
+  {
     "id": "log-1792690088958-278",
     "action": "STOCK_ADJUSTED",
     "details": "Adjusted stock for \"Bingo Mad Angles / Ridge\": 25 -> 35 (Automated stock test adjustment)",
