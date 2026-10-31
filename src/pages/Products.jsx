@@ -82,22 +82,25 @@ export default function Products({ selectedCategory, setSelectedCategory, catego
                 : 'bg-white border-cream-dark hover:border-primary/30 text-charcoal/80'
             }`}
           >
-            All Products
+            All Products ({products?.length || 0})
           </button>
           
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold shrink-0 transition-colors border ${
-                selectedCategory === cat.id
-                  ? 'bg-primary border-primary text-cream'
-                  : 'bg-white border-cream-dark hover:border-primary/30 text-charcoal/80'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const count = (products || []).filter(p => p.categoryId === cat.id).length;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold shrink-0 transition-colors border ${
+                  selectedCategory === cat.id
+                    ? 'bg-primary border-primary text-cream'
+                    : 'bg-white border-cream-dark hover:border-primary/30 text-charcoal/80'
+                }`}
+              >
+                {cat.name} ({count})
+              </button>
+            );
+          })}
         </div>
       </div>
 
