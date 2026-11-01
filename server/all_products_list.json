@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "baby-pampers",
+    "name": "Pampers Baby Dry Diapers (M)",
+    "categoryId": "baby-care",
+    "packSize": "20 Count",
+    "price": 320,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "baby-wipes",
+    "name": "Himalaya Gentle Baby Wipes",
+    "categoryId": "baby-care",
+    "packSize": "72 Wipes",
+    "price": 125,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "bev-3roses",
+    "name": "3 Roses tea powder",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Tea & Coffee",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-bislerisoda",
+    "name": "Bisleri Soda",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-bru",
+    "name": "Bru coffee powder",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Tea & Coffee",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-buttermilk",
+    "name": "Buttermilk",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-cola",
+    "name": "Coca-Cola",
+    "categoryId": "beverages",
+    "packSize": "750 ml",
+    "price": 45,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-curd",
+    "name": "Curd",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-kinleysoda",
+    "name": "Kinley Soda",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-maaza",
+    "name": "Maaza Mango Drink",
+    "categoryId": "beverages",
+    "packSize": "600 ml",
+    "price": 40,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-milk",
+    "name": "Heritage Full Cream Milk",
+    "categoryId": "beverages",
+    "packSize": "500 ml",
+    "price": 37,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-milk-local",
+    "name": "Milk",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-nescafe",
+    "name": "Nescafe coffee powder",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Tea & Coffee",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-pepsi",
+    "name": "Pepsi",
+    "categoryId": "beverages",
+    "packSize": "750 ml",
+    "price": 45,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-saltsoda",
+    "name": "Salt Soda",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-sprite",
+    "name": "Sprite",
+    "categoryId": "beverages",
+    "packSize": "750 ml",
+    "price": 45,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-tajmahal",
+    "name": "Taj Mahal tea powder",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Tea & Coffee",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-tatawater",
+    "name": "Tata Water",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-thumbsup-drink",
+    "name": "ThumbsUp",
+    "categoryId": "beverages",
+    "packSize": null,
+    "price": null,
+    "desc": "Cool Drinks & Liquids",
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-thumsup",
+    "name": "Thums Up",
+    "categoryId": "beverages",
+    "packSize": "1.25 L",
+    "price": 70,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bev-water",
+    "name": "Kinley Mineral Water",
+    "categoryId": "beverages",
+    "packSize": "1 L",
+    "price": 20,
+    "desc": null,
+    "currentImage": "/images/beverages.jpg"
+  },
+  {
+    "id": "bisc-bourbon",
+    "name": "Bourbon biscuits",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-goodday-10",
+    "name": "Good Day biscuits",
+    "categoryId": "snacks",
+    "packSize": "10",
+    "price": 10,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-goodday-5",
+    "name": "Good Day biscuits",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-mariegold-10",
+    "name": "Marie Gold biscuits",
+    "categoryId": "snacks",
+    "packSize": "10",
+    "price": 10,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-mariegold-5",
+    "name": "Marie Gold biscuits",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-momsmagic",
+    "name": "Moms Magic biscuits",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-oreo",
+    "name": "Oreo biscuits",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "bisc-tiger-3",
+    "name": "Tiger biscuits",
+    "categoryId": "snacks",
+    "packSize": "3",
+    "price": 3,
+    "desc": "Biscuits",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-5star-10",
+    "name": "5 Star",
+    "categoryId": "snacks",
+    "packSize": "10",
+    "price": 10,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-5star-5",
+    "name": "5 Star",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-anjeera",
+    "name": "Anjeera chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-coconut",
+    "name": "Coconut chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-coffee",
+    "name": "Coffee chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-dairymilk-10",
+    "name": "Dairy Milk",
+    "categoryId": "snacks",
+    "packSize": "10",
+    "price": 10,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-dairymilk-5",
+    "name": "Dairy Milk",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-ilachi",
+    "name": "Ilachi chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-mango",
+    "name": "Mango chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-milk",
+    "name": "Milk chocolate",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "choc-munch-5",
+    "name": "Munch",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Chocolates",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "clean-harpic",
+    "name": "Harpic Toilet Cleaner Liquid",
+    "categoryId": "home-cleaning",
+    "packSize": "500 ml",
+    "price": 105,
+    "desc": null,
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-lizol",
+    "name": "Lizol Floor Cleaner Citrus",
+    "categoryId": "home-cleaning",
+    "packSize": "500 ml",
+    "price": 110,
+    "desc": null,
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-rin-extra",
+    "name": "Rin (extra)",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-rin-surfexcel",
+    "name": "Rin Surf Excel",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-surf",
+    "name": "Surf Excel Easy Wash Powder",
+    "categoryId": "home-cleaning",
+    "packSize": "1 kg",
+    "price": 140,
+    "desc": null,
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-tidesurf",
+    "name": "Tide Surf",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "clean-vim",
+    "name": "Vim Dishwash Bar",
+    "categoryId": "home-cleaning",
+    "packSize": "300 g",
+    "price": 30,
+    "desc": null,
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "daily-bangles",
+    "name": "Bangles",
+    "categoryId": "daily-essentials",
+    "packSize": null,
+    "price": null,
+    "desc": "Powders & Others",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "daily-czitems",
+    "name": "CZ items",
+    "categoryId": "daily-essentials",
+    "packSize": null,
+    "price": null,
+    "desc": "Powders & Others",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "daily-match",
+    "name": "Ship Matchbox Bundle",
+    "categoryId": "daily-essentials",
+    "packSize": "10 Matchboxes",
+    "price": 20,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "fresh-lemon",
+    "name": "Fresh Lemons",
+    "categoryId": "fresh-produce",
+    "packSize": "4 pcs",
+    "price": 15,
+    "desc": null,
+    "currentImage": "/images/fresh-produce.jpg"
+  },
+  {
+    "id": "fresh-onion",
+    "name": "Local Red Onions",
+    "categoryId": "fresh-produce",
+    "packSize": "1 kg",
+    "price": 40,
+    "desc": null,
+    "currentImage": "/images/fresh-produce.jpg"
+  },
+  {
+    "id": "fresh-potato",
+    "name": "Fresh Potatoes",
+    "categoryId": "fresh-produce",
+    "packSize": "1 kg",
+    "price": 35,
+    "desc": null,
+    "currentImage": "/images/fresh-produce.jpg"
+  },
+  {
+    "id": "fresh-tomato",
+    "name": "Ripe Red Tomatoes",
+    "categoryId": "fresh-produce",
+    "packSize": "1 kg",
+    "price": 30,
+    "desc": null,
+    "currentImage": "/images/fresh-produce.jpg"
+  },
+  {
+    "id": "groc-aavalu",
+    "name": "Aavalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-allam",
+    "name": "Allam",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-atta-ashir",
+    "name": "Aashirvaad Shudh Chakki Atta",
+    "categoryId": "grocery",
+    "packSize": "5 kg",
+    "price": 260,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-bhampappu",
+    "name": "Bham pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-biyyam",
+    "name": "Biyyam",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-bombayravva",
+    "name": "Bombay ravva",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-dettol-handwash",
+    "name": "Dettol handwash",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "groc-dhalchinachekka",
+    "name": "Dhalchina chekka",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-dhaniyalu",
+    "name": "Dhaniyalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-gasagasaalu",
+    "name": "Gasagasaalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-geedipappu",
+    "name": "Geedipappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-godhumapindi",
+    "name": "Godhuma pindi",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-godhumaravva",
+    "name": "Godhuma ravva",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-idlyravva",
+    "name": "Idly ravva",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-kandipappu",
+    "name": "Kandi pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-kissmiss",
+    "name": "Kissmiss",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-kobbari",
+    "name": "Kobbari",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-kobbarikayalu",
+    "name": "Kobbarikayalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-maida",
+    "name": "Maida",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-minapappu-gundlu",
+    "name": "Mina pappu - Gundlu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-minapappu-pattu",
+    "name": "Mina pappu - Pattu pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-minapappu-sayi",
+    "name": "Mina pappu - Sayi pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-miriyalu",
+    "name": "Miriyalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-moong",
+    "name": "Tata Sampann Moong Dal",
+    "categoryId": "grocery",
+    "packSize": "1 kg",
+    "price": 140,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-pesarapappu-pattu",
+    "name": "Pesara pappu - Pattu pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-pesarapappu-sayi",
+    "name": "Pesara pappu - Sayi pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-putnalapappu",
+    "name": "Putnala pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-rice-sona",
+    "name": "Sona Masuri Raw Rice (Premium)",
+    "categoryId": "grocery",
+    "packSize": "5 kg",
+    "price": 320,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-saggubiyyam",
+    "name": "Saggubiyyam",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-salt",
+    "name": "Tata Salt (Iodized)",
+    "categoryId": "grocery",
+    "packSize": "1 kg",
+    "price": 28,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-santoor-handwash",
+    "name": "Santoor handwash",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "groc-semyalu",
+    "name": "Semyalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-senagapappu",
+    "name": "Senaga pappu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-senagapindi",
+    "name": "Senaga pindi",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-senagavithanalu",
+    "name": "Senaga vithanalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-sugar",
+    "name": "Madhur Pure White Sugar",
+    "categoryId": "grocery",
+    "packSize": "1 kg",
+    "price": 48,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-toordal",
+    "name": "Tata Sampann Toor Dal",
+    "categoryId": "grocery",
+    "packSize": "1 kg",
+    "price": 185,
+    "desc": null,
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-vellulli",
+    "name": "Vellulli",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "groc-yalukalu",
+    "name": "Yalukalu",
+    "categoryId": "grocery",
+    "packSize": null,
+    "price": null,
+    "desc": "Pappulu, Ginjalu, Pindilu",
+    "currentImage": "/images/grocery.jpg"
+  },
+  {
+    "id": "house-battery-aa",
+    "name": "Duracell Ultra AA Batteries",
+    "categoryId": "household-utilities",
+    "packSize": "4 Pack",
+    "price": 160,
+    "desc": null,
+    "currentImage": "/images/stationery.jpg"
+  },
+  {
+    "id": "house-bulb",
+    "name": "Philips 9W LED Bulb (Cool Day)",
+    "categoryId": "household-utilities",
+    "packSize": "1 Unit",
+    "price": 100,
+    "desc": null,
+    "currentImage": "/images/stationery.jpg"
+  },
+  {
+    "id": "kit-chilli",
+    "name": "Aashirvaad Red Chilli Powder",
+    "categoryId": "kitchen",
+    "packSize": "200 g",
+    "price": 75,
+    "desc": "",
+    "currentImage": "/images/kitchen.jpg"
+  },
+  {
+    "id": "kit-garam",
+    "name": "Everest Garam Masala",
+    "categoryId": "kitchen",
+    "packSize": "100 g",
+    "price": 88,
+    "desc": null,
+    "currentImage": "/images/kitchen.jpg"
+  },
+  {
+    "id": "kit-ghee",
+    "name": "Amul Pure Cow Ghee",
+    "categoryId": "kitchen",
+    "packSize": "500 ml Tin",
+    "price": 345,
+    "desc": null,
+    "currentImage": "/images/kitchen.jpg"
+  },
+  {
+    "id": "kit-oil-sun",
+    "name": "Freedom Sunflower Oil",
+    "categoryId": "kitchen",
+    "packSize": "1 L Pouch",
+    "price": 125,
+    "desc": null,
+    "currentImage": "/images/kitchen.jpg"
+  },
+  {
+    "id": "kit-turmeric",
+    "name": "Aashirvaad Turmeric Powder",
+    "categoryId": "kitchen",
+    "packSize": "200 g",
+    "price": 55,
+    "desc": null,
+    "currentImage": "/images/kitchen.jpg"
+  },
+  {
+    "id": "pack-ketchup",
+    "name": "Kissan Fresh Tomato Ketchup",
+    "categoryId": "packaged-foods",
+    "packSize": "950 g",
+    "price": 145,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "pack-maggie",
+    "name": "Maggi 2-Minute Noodles",
+    "categoryId": "packaged-foods",
+    "packSize": "280 g",
+    "price": 60,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "pers-bbpowder",
+    "name": "BB powder",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Powders & Others",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-colgate",
+    "name": "Colgate Strong Teeth Toothpaste",
+    "categoryId": "personal-care",
+    "packSize": "150 g",
+    "price": 95,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-dettol",
+    "name": "Dettol Liquid Handwash Refill",
+    "categoryId": "personal-care",
+    "packSize": "175 ml",
+    "price": 99,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-pondspowder",
+    "name": "Ponds powder",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Powders & Others",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-santoorpowder",
+    "name": "Santoor powder",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Powders & Others",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-shamp-dove",
+    "name": "Dove Intense Repair Shampoo",
+    "categoryId": "personal-care",
+    "packSize": "180 ml",
+    "price": 160,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "pers-soap-lux",
+    "name": "Lux Soft Touch Soap",
+    "categoryId": "personal-care",
+    "packSize": "100 g",
+    "price": 35,
+    "desc": null,
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-chik",
+    "name": "Chik shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-clinicplus",
+    "name": "Clinic Plus shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-dove",
+    "name": "Dove shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-headshoulder",
+    "name": "Head & Shoulder shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-meera",
+    "name": "Meera shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "shamp-sunsilk",
+    "name": "Sunsilk shampoo",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Shampoos",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "snack-batani-packets",
+    "name": "Batani packets",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-bingo-10",
+    "name": "Bingo",
+    "categoryId": "snacks",
+    "packSize": "10",
+    "price": 10,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-dairymilk",
+    "name": "Cadbury Dairy Milk",
+    "categoryId": "snacks",
+    "packSize": "50 g",
+    "price": 45,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-goodday",
+    "name": "Britannia Good Day Butter",
+    "categoryId": "snacks",
+    "packSize": "200 g",
+    "price": 30,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-hyderabad-biryani",
+    "name": "Hyderabad biryani",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-kurkure",
+    "name": "Kurkure Masala Munch",
+    "categoryId": "snacks",
+    "packSize": "90 g",
+    "price": 20,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-lays",
+    "name": "Lays Classic Salted Chips",
+    "categoryId": "snacks",
+    "packSize": "50 g",
+    "price": 20,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-lays-5",
+    "name": "Lays",
+    "categoryId": "snacks",
+    "packSize": "5",
+    "price": 5,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-masala-palli",
+    "name": "Masala palli",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-moongdal",
+    "name": "Moong dal",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-oreo",
+    "name": "Oreo Vanilla Cream Biscuits",
+    "categoryId": "snacks",
+    "packSize": "120 g",
+    "price": 35,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-papads",
+    "name": "Papads",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-parleg",
+    "name": "Parle-G Gluco Biscuits",
+    "categoryId": "snacks",
+    "packSize": "130 g",
+    "price": 10,
+    "desc": null,
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "snack-soyasticks",
+    "name": "Soya sticks",
+    "categoryId": "snacks",
+    "packSize": null,
+    "price": null,
+    "desc": "Snacks",
+    "currentImage": "/images/snacks.jpg"
+  },
+  {
+    "id": "soap-exo",
+    "name": "Exo soap",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "soap-lifebuoy",
+    "name": "Lifebuoy soap",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Body Soaps",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "soap-mysoresandal",
+    "name": "Mysore Sandal soap",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Body Soaps",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "soap-rin-cloth",
+    "name": "Rin cloth soap",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "soap-rinsurfexcel-cloth",
+    "name": "Rin Surf Excel cloth soap",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "soap-santoor",
+    "name": "Santoor soap",
+    "categoryId": "personal-care",
+    "packSize": null,
+    "price": null,
+    "desc": "Body Soaps",
+    "currentImage": "/images/personal-care.jpg"
+  },
+  {
+    "id": "soap-vim",
+    "name": "Vim soap",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "soap-xxxl",
+    "name": "XXXL cloth soap",
+    "categoryId": "home-cleaning",
+    "packSize": null,
+    "price": null,
+    "desc": "Cloth & Dish Soaps",
+    "currentImage": "/images/home-cleaning.jpg"
+  },
+  {
+    "id": "stat-apsara-penc",
+    "name": "Apsara Platinum Pencil Pack",
+    "categoryId": "stationery",
+    "packSize": "10 Pencils",
+    "price": 50,
+    "desc": null,
+    "currentImage": "/images/stationery.jpg"
+  },
+  {
+    "id": "stat-notebook",
+    "name": "Classmate Single Line Notebook",
+    "categoryId": "stationery",
+    "packSize": "172 Pages",
+    "price": 45,
+    "desc": null,
+    "currentImage": "/images/stationery.jpg"
+  },
+  {
+    "id": "stat-pen-link",
+    "name": "Linc Glycer Ball Pen (Blue)",
+    "categoryId": "stationery",
+    "packSize": "5 Pack",
+    "price": 25,
+    "desc": null,
+    "currentImage": "/images/stationery.jpg"
+  }
+]

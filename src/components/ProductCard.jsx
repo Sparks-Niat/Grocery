@@ -1,22 +1,40 @@
-import React from 'react';
-import { MessageSquare, Check, Phone } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageSquare, Check, Phone, ImageOff } from 'lucide-react';
 import { storeInfo } from '../data/store';
 
 export default function ProductCard({ product, categoryName }) {
+  const [imgError, setImgError] = useState(false);
   const packSuffix = product.packSize ? ` (${product.packSize})` : '';
   const whatsappUrl = `https://wa.me/${(storeInfo.whatsappNumber || storeInfo.whatsapp || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
     `Hello, I saw "${product.name}${packSuffix}" on your website. Is it available in stock today?`
   )}`;
+
+  const fallbackCategoryImages = {
+    snacks: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500&auto=format&fit=crop&q=80',
+    beverages: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
+    grocery: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80',
+    kitchen: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80',
+    'fresh-produce': 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=500&auto=format&fit=crop&q=80',
+    'personal-care': 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=80',
+    'home-cleaning': 'https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=500&auto=format&fit=crop&q=80',
+    stationery: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500&auto=format&fit=crop&q=80',
+    'household-utilities': 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=80'
+  };
+
+  const defaultImage = fallbackCategoryImages[product.categoryId] || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80';
+  const displayImage = imgError || !product.image ? defaultImage : product.image;
+  const isIdentifiedPlaceholder = Boolean(product.isPlaceholder || imgError);
 
   return (
     <div className="flex flex-col h-full bg-white rounded-2xl border border-cream-dark/60 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 group">
       {/* Product Image Container */}
       <div className="relative aspect-card w-full overflow-hidden bg-cream-dark/30 flex items-center justify-center p-2 border-b border-cream-dark/45">
         <img 
-          src={product.image} 
-          alt={product.name} 
+          src={displayImage} 
+          alt={`${product.name}${product.packSize ? ` (${product.packSize})` : ''} - DailyMart Grocery Store`} 
           className="max-h-full max-w-full object-contain transform group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
+          onError={() => setImgError(true)}
         />
         
         {/* Availability Badge */}
@@ -24,6 +42,14 @@ export default function ProductCard({ product, categoryName }) {
           <div className="absolute top-3 left-3 bg-primary/90 text-cream text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm border border-primary-light/20">
             <Check size={10} className="text-accent" />
             <span>Available in Store</span>
+          </div>
+        )}
+
+        {/* Identified Placeholder Badge */}
+        {isIdentifiedPlaceholder && (
+          <div className="absolute top-3 right-3 bg-charcoal/70 text-cream text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm">
+            <ImageOff size={9} />
+            <span>Placeholder</span>
           </div>
         )}
       </div>
