@@ -1,5 +1,6 @@
 import React from 'react';
-import { ShoppingBasket, Phone, MessageSquare, MapPin, Clock, ArrowUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShoppingBasket, Phone, MessageSquare, MapPin, Clock, ArrowUp, Lock } from 'lucide-react';
 
 export default function Footer({ setActivePage, storeInfo, categories = [], footerLinks = [], socialLinks = [] }) {
   const handleLinkClick = (path) => {
@@ -136,14 +137,25 @@ export default function Footer({ setActivePage, storeInfo, categories = [], foot
           </div>
         </div>
 
-        {/* Disclaimer Alert */}
+        {/* Disclaimer Alert & Copyright */}
         <div className="border-t border-white/10 pt-8 pb-4 text-center">
           <div className="inline-block px-4 py-2 rounded-lg bg-white/5 border border-white/10 mb-4 text-xs max-w-2xl leading-relaxed text-cream-light/60">
             <strong>Development Notice:</strong> This website is a premium digital showcase demonstration for development purposes. The brand name, products, gallery images, maps, and details are temporary sample placeholders and will be replaced with the actual business details prior to final launch.
           </div>
-          <p className="text-xs text-cream-light/40">
-            {storeInfo.copyright || `© ${currentYear} DailyMart General Store. All Rights Reserved.`}
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs text-cream-light/40">
+            <p>
+              {storeInfo.copyright || `© ${currentYear} DailyMart General Store. All Rights Reserved.`}
+            </p>
+            <span className="hidden sm:inline text-white/20">•</span>
+            <Link 
+              to="/admin/login" 
+              className="inline-flex items-center space-x-1.5 text-cream-light/40 hover:text-accent hover:underline transition-colors duration-200"
+              title="Store Management Portal"
+            >
+              <Lock size={11} className="opacity-70" />
+              <span>Admin Dashboard</span>
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
