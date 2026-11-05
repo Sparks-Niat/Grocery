@@ -33,7 +33,7 @@ export default function Footer({ setActivePage, storeInfo, categories = [], foot
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden border border-accent">
                 <img 
                   src={storeInfo.logo} 
-                  alt="DailyMart Logo" 
+                  alt={storeInfo.name || "Store Logo"} 
                   className="w-full h-full object-cover"
                 />
               </div>

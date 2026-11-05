@@ -46,7 +46,7 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden border border-accent shadow-sm">
               <img 
                 src={storeInfo.logo} 
-                alt="DailyMart Logo" 
+                alt={storeInfo.name || "Store Logo"} 
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // Fallback to Icon if image fails to load
