@@ -26,11 +26,15 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // When at top of home page over full-screen image, use high-contrast white text with subtle dark overlay/blur.
+  // When scrolled down on any page, transition to solid white background with dark gray/black links.
+  const isTransparent = (activePage === 'home' || !activePage) && !isScrolled;
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'py-3 bg-white/95 backdrop-blur-md shadow-md border-b border-primary/10' 
-        : 'py-5 bg-transparent'
+      isTransparent 
+        ? 'py-4 bg-black/35 backdrop-blur-md border-b border-white/10 shadow-sm'
+        : 'py-3 bg-white/95 backdrop-blur-md shadow-md border-b border-primary/10'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -39,7 +43,7 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
             onClick={() => handleNavClick('/')}
             className="flex items-center space-x-3 cursor-pointer select-none"
           >
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden border border-accent">
+            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden border border-accent shadow-sm">
               <img 
                 src={storeInfo.logo} 
                 alt="DailyMart Logo" 
@@ -55,10 +59,14 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
               </span>
             </div>
             <div>
-              <span className="font-display font-bold text-lg md:text-xl text-primary block leading-none">
+              <span className={`font-display font-bold text-lg md:text-xl block leading-none transition-colors duration-200 ${
+                isTransparent ? 'text-white' : 'text-primary'
+              }`}>
                 {storeInfo.businessName || 'DailyMart'}
               </span>
-              <span className="text-[10px] text-secondary font-medium tracking-widest uppercase">
+              <span className={`text-[10px] font-medium tracking-widest uppercase transition-colors duration-200 ${
+                isTransparent ? 'text-accent' : 'text-secondary'
+              }`}>
                 General Store
               </span>
             </div>
@@ -68,14 +76,19 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
           <div className="hidden md:flex items-center space-x-1">
             {navigation.map((link) => {
               const pageId = link.path === '/' ? 'home' : link.path.replace('/', '');
+              const isActive = activePage === pageId;
               return (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.path)}
-                  className={`px-4 py-2 rounded-full font-medium text-sm transition-colors duration-200 ${
-                    activePage === pageId
-                      ? 'text-primary bg-primary/5 font-semibold'
-                      : 'text-charcoal/80 hover:text-primary hover:bg-primary/5'
+                  className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-200 ${
+                    isTransparent
+                      ? isActive
+                        ? 'text-white bg-white/20 font-semibold shadow-sm backdrop-blur-sm'
+                        : 'text-white/90 hover:text-white hover:bg-white/10'
+                      : isActive
+                        ? 'text-primary bg-primary/10 font-semibold'
+                        : 'text-charcoal/80 hover:text-primary hover:bg-primary/5'
                   }`}
                 >
                   {link.label}
@@ -96,7 +109,7 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
               }}
-              className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-primary hover:bg-primary-dark text-cream font-semibold text-sm shadow-sm hover:shadow transition-all duration-200"
+              className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-primary hover:bg-primary-dark text-cream font-semibold text-sm shadow-sm hover:shadow transition-all duration-200 border border-primary-light/20"
             >
               <Phone size={14} className="text-accent" />
               <span>Visit Store</span>
@@ -107,7 +120,11 @@ export default function Navbar({ activePage, setActivePage, storeInfo, navigatio
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:bg-primary/5 focus:outline-none"
+              className={`inline-flex items-center justify-center p-2 rounded-md transition-colors duration-200 focus:outline-none ${
+                isTransparent
+                  ? 'text-white hover:bg-white/10'
+                  : 'text-primary hover:bg-primary/5'
+              }`}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
