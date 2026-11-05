@@ -26,9 +26,9 @@ export default function ProductCard({ product, categoryName }) {
   const isIdentifiedPlaceholder = Boolean(product.isPlaceholder || imgError);
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-2xl border border-cream-dark/60 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 group">
+    <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200/85 overflow-hidden shadow-xs hover:shadow-xl hover:border-primary/30 hover:-translate-y-1 transition-all duration-300 group">
       {/* Product Image Container */}
-      <div className="relative aspect-card w-full overflow-hidden bg-cream-dark/30 flex items-center justify-center p-2 border-b border-cream-dark/45">
+      <div className="relative aspect-square w-full overflow-hidden bg-slate-50/70 flex items-center justify-center p-3 sm:p-4 border-b border-slate-100">
         <img 
           src={displayImage} 
           alt={`${product.name}${product.packSize ? ` (${product.packSize})` : ''} - DailyMart Grocery Store`} 
@@ -39,15 +39,15 @@ export default function ProductCard({ product, categoryName }) {
         
         {/* Availability Badge */}
         {product.inStock && (
-          <div className="absolute top-3 left-3 bg-primary/90 text-cream text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm border border-primary-light/20">
+          <div className="absolute top-2.5 left-2.5 bg-primary/95 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm border border-white/20">
             <Check size={10} className="text-accent" />
-            <span>Available in Store</span>
+            <span>In Store</span>
           </div>
         )}
 
         {/* Identified Placeholder Badge */}
         {isIdentifiedPlaceholder && (
-          <div className="absolute top-3 right-3 bg-charcoal/70 text-cream text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm">
+          <div className="absolute top-2.5 right-2.5 bg-slate-700/80 text-white text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center space-x-1 shadow-sm backdrop-blur-sm">
             <ImageOff size={9} />
             <span>Placeholder</span>
           </div>
@@ -55,38 +55,46 @@ export default function ProductCard({ product, categoryName }) {
       </div>
 
       {/* Info Container */}
-      <div className="p-4 flex-1 flex flex-col text-left">
-        {/* Category Label */}
-        <span className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1.5 block">
-          {categoryName || product.categoryId}
-        </span>
-        
-        {/* Title */}
-        <h3 className="font-display font-bold text-charcoal-dark text-sm sm:text-base line-clamp-2 mb-1 group-hover:text-primary transition-colors">
-          {product.name}
-        </h3>
-        
-        {/* Pack Size */}
-        <p className="text-xs text-charcoal/60 mb-3 min-h-[1rem]">
-          {product.packSize ? `Pack size: ${product.packSize}` : '\u00A0'}
-        </p>
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between text-left">
+        <div>
+          {/* Category Label */}
+          <span className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1 block">
+            {categoryName || product.categoryId}
+          </span>
+          
+          {/* Title with min-height for uniform row alignment */}
+          <h3 className="font-display font-bold text-slate-800 text-sm sm:text-base line-clamp-2 min-h-[2.5rem] leading-snug mb-1.5 group-hover:text-primary transition-colors">
+            {product.name}
+          </h3>
+          
+          {/* Pack Size badge */}
+          <div className="min-h-[1.5rem] mb-3">
+            {product.packSize ? (
+              <span className="inline-block text-[11px] font-medium text-slate-500 bg-slate-100/90 px-2 py-0.5 rounded-md">
+                Pack: {product.packSize}
+              </span>
+            ) : (
+              <span className="text-[11px] text-slate-400 italic">Standard pack</span>
+            )}
+          </div>
+        </div>
 
         {/* Pricing and Details */}
-        <div className="mt-auto pt-3 border-t border-cream-dark/50 flex items-end justify-between">
-          <div>
-            <span className="text-[10px] text-charcoal/50 block font-medium uppercase leading-none mb-1">
-              {product.price != null && product.price !== '' ? 'Sample Price' : 'Price'}
+        <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-slate-400 block font-semibold uppercase leading-none mb-1">
+              {product.price != null && product.price !== '' ? 'Price' : 'Status'}
             </span>
-            <span className="font-display font-extrabold text-primary text-lg">
+            <span className="font-display font-extrabold text-primary text-base sm:text-lg leading-tight">
               {product.price != null && product.price !== '' ? `₹${product.price}` : 'Available'}
             </span>
           </div>
 
           {/* Quick CTA to inquire */}
-          <div className="flex space-x-1.5">
+          <div className="flex items-center space-x-1.5 shrink-0">
             <a 
               href={`tel:${storeInfo.phone}`}
-              className="p-2 rounded-lg bg-cream-dark hover:bg-primary hover:text-white text-charcoal/70 transition-all duration-200"
+              className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-primary hover:text-white text-slate-600 transition-all duration-200"
               title="Call store about this item"
             >
               <Phone size={14} />
@@ -95,7 +103,7 @@ export default function ProductCard({ product, categoryName }) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-2 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366] text-[#20ba5a] hover:text-white font-bold text-xs flex items-center space-x-1 transition-all duration-200"
+              className="inline-flex items-center space-x-1 px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs sm:text-sm border border-emerald-200/70 hover:border-emerald-600 shadow-xs transition-all duration-200"
               title="Inquire on WhatsApp"
             >
               <MessageSquare size={13} className="fill-current" />
