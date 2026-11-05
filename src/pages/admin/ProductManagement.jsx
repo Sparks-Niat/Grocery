@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Search, X, Loader2, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, X, Loader2, Image as ImageIcon, AlertCircle, Upload, Link as LinkIcon } from 'lucide-react';
 import { getApiUrl } from '../../utils/api';
 
 export default function ProductManagement() {
@@ -28,6 +28,9 @@ export default function ProductManagement() {
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [imageUrlInput, setImageUrlInput] = useState('');
+  const [imageInputMode, setImageInputMode] = useState('file'); // 'file' or 'url'
+  const [urlPreviewError, setUrlPreviewError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
 
@@ -52,6 +55,7 @@ export default function ProductManagement() {
 
   const openModal = (product = null) => {
     setUploadError('');
+    setUrlPreviewError(false);
     if (product) {
       setEditingProduct(product);
       setFormData({
@@ -67,6 +71,8 @@ export default function ProductManagement() {
         publicId: product.publicId || ''
       });
       setImagePreview(product.image || '');
+      setImageUrlInput(product.image || '');
+      setImageInputMode('file');
     } else {
       setEditingProduct(null);
       setFormData({
@@ -82,6 +88,8 @@ export default function ProductManagement() {
         publicId: ''
       });
       setImagePreview('');
+      setImageUrlInput('');
+      setImageInputMode('file');
     }
     setImageFile(null);
     setIsModalOpen(true);
@@ -92,6 +100,8 @@ export default function ProductManagement() {
     setEditingProduct(null);
     setImageFile(null);
     setImagePreview('');
+    setImageUrlInput('');
+    setUrlPreviewError(false);
     setUploadError('');
   };
 
@@ -100,6 +110,7 @@ export default function ProductManagement() {
     if (!file) return;
 
     setUploadError('');
+    setUrlPreviewError(false);
 
     // Client-side file validation
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
@@ -119,9 +130,25 @@ export default function ProductManagement() {
     setImagePreview(URL.createObjectURL(file));
   };
 
+  const handleUrlChange = (e) => {
+    const val = e.target.value;
+    setImageUrlInput(val);
+    setUrlPreviewError(false);
+    setImageFile(null);
+    if (val.trim()) {
+      setImagePreview(val.trim());
+      setFormData(prev => ({ ...prev, image: val.trim(), publicId: '' }));
+    } else {
+      setImagePreview('');
+      setFormData(prev => ({ ...prev, image: '', publicId: '' }));
+    }
+  };
+
   const clearImage = () => {
     setImageFile(null);
     setImagePreview('');
+    setImageUrlInput('');
+    setUrlPreviewError(false);
     setFormData(prev => ({ ...prev, image: '', publicId: '' }));
   };
 
@@ -155,10 +182,13 @@ export default function ProductManagement() {
       let imageUrl = formData.image;
       let publicId = formData.publicId;
 
-      if (imageFile) {
+      if (imageInputMode === 'file' && imageFile) {
         const uploadRes = await handleImageUpload();
         imageUrl = uploadRes.url;
         publicId = uploadRes.publicId;
+      } else if (imageInputMode === 'url' && imageUrlInput.trim()) {
+        imageUrl = imageUrlInput.trim();
+        publicId = '';
       }
 
       const payload = { 
@@ -410,52 +440,138 @@ export default function ProductManagement() {
                 />
               </div>
               
-              {/* Cloudinary Image Upload Field */}
+              {/* Product Image Section: File Upload or Direct URL */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Product Image (Cloudinary Managed)</label>
-                
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Product Image
+                  </label>
+                  
+                  {/* Mode Toggle Buttons */}
+                  <div className="inline-flex rounded-lg border border-gray-200 bg-gray-100 p-0.5 text-xs font-medium">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImageInputMode('file');
+                        if (imageFile) {
+                          setImagePreview(URL.createObjectURL(imageFile));
+                        } else if (!imageUrlInput && formData.image) {
+                          setImagePreview(formData.image);
+                        }
+                      }}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-all ${
+                        imageInputMode === 'file'
+                          ? 'bg-white text-gray-800 shadow-xs font-semibold'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Upload File</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImageInputMode('url');
+                        if (imageUrlInput.trim()) {
+                          setImagePreview(imageUrlInput.trim());
+                        } else if (formData.image) {
+                          setImageUrlInput(formData.image);
+                          setImagePreview(formData.image);
+                        }
+                      }}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-all ${
+                        imageInputMode === 'url'
+                          ? 'bg-white text-gray-800 shadow-xs font-semibold'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      <LinkIcon className="w-3.5 h-3.5" />
+                      <span>Image URL</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Preview Thumbnail Container */}
                 {imagePreview ? (
-                  <div className="relative mb-3 p-2 border border-gray-200 rounded-lg bg-gray-50 flex items-center gap-3">
-                    <img 
-                      src={imagePreview} 
-                      alt="Product Preview" 
-                      className="w-16 h-16 object-contain rounded border border-gray-300 bg-white"
-                    />
+                  <div className="relative mb-3 p-2.5 border border-gray-200 rounded-lg bg-gray-50 flex items-center gap-3">
+                    <div className="relative w-16 h-16 shrink-0 rounded border border-gray-300 bg-white overflow-hidden flex items-center justify-center">
+                      <img 
+                        src={imagePreview} 
+                        alt="Product Preview" 
+                        className="w-full h-full object-contain"
+                        onError={() => {
+                          setUrlPreviewError(true);
+                        }}
+                      />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-gray-700 truncate">
-                        {imageFile ? imageFile.name : (formData.image || 'Current Image')}
+                        {imageFile ? imageFile.name : (imagePreview || 'Image Preview')}
                       </p>
-                      <p className="text-[11px] text-gray-500">
-                        {imageFile ? `${(imageFile.size / 1024).toFixed(1)} KB (Ready to upload)` : (
-                          formData.image?.includes('cloudinary.com') ? 'Stored securely on Cloudinary' : 'Local static asset'
+                      <p className="text-[11px] text-gray-500 mt-0.5">
+                        {urlPreviewError ? (
+                          <span className="text-amber-600 font-medium">⚠️ Preview failed to load (check link address)</span>
+                        ) : imageFile ? (
+                          `${(imageFile.size / 1024).toFixed(1)} KB (Ready to upload to Cloudinary)`
+                        ) : imagePreview.includes('cloudinary.com') ? (
+                          'Hosted on Cloudinary'
+                        ) : (
+                          'Direct Web URL'
                         )}
                       </p>
                     </div>
                     <button 
                       type="button" 
                       onClick={clearImage}
-                      className="p-1 text-red-600 hover:bg-red-50 rounded"
-                      title="Remove image"
+                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                      title="Clear image"
                     >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                 ) : (
-                  <div className="mb-2 p-4 border-2 border-dashed border-gray-200 rounded-lg text-center bg-gray-50/50">
+                  <div className="mb-3 p-4 border-2 border-dashed border-gray-200 rounded-lg text-center bg-gray-50/50">
                     <ImageIcon className="w-8 h-8 mx-auto text-gray-300 mb-1" />
-                    <p className="text-xs text-gray-500">No image selected. Upload a product photo below.</p>
+                    <p className="text-xs text-gray-500">
+                      {imageInputMode === 'file' 
+                        ? 'No file selected. Choose an image file below.' 
+                        : 'No URL entered. Paste a direct image link below.'}
+                    </p>
                   </div>
                 )}
 
-                <input 
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                  onChange={handleFileChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer"
-                />
-                <p className="text-[11px] text-gray-400 mt-1">
-                  Supported formats: JPEG, PNG, WEBP, GIF, AVIF (Max 5MB).
-                </p>
+                {/* Conditional Input based on Mode */}
+                {imageInputMode === 'file' ? (
+                  <div>
+                    <input 
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                      onChange={handleFileChange}
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer"
+                    />
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      Supported formats: JPEG, PNG, WEBP, GIF, AVIF (Max 5MB).
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <LinkIcon className="w-4 h-4" />
+                      </div>
+                      <input 
+                        type="url"
+                        placeholder="https://example.com/images/product.jpg"
+                        value={imageUrlInput}
+                        onChange={handleUrlChange}
+                        className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none text-sm"
+                      />
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      Paste a direct HTTPS link to an image file (e.g. from an image hosting service or CDN).
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div>
