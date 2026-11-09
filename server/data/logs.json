@@ -1,5 +1,12 @@
 [
   {
+    "id": "log-1794205753221-76",
+    "action": "ADMIN_LOGIN",
+    "details": "Admin joelramireddy@gmail.com logged in successfully",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-11-09T06:29:13.221Z"
+  },
+  {
     "id": "log-1793383426554-796",
     "action": "PRICE_UPDATED",
     "details": "Price changed for \"Chik Shampoo\" from ₹0 to ₹1",

@@ -16,12 +16,12 @@ import { generateToken, authenticateToken, verifyAdminLogin } from './auth.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialize admin from environment variables safely if no admin exists
+// Securely initialize or synchronize admin from environment variables safely
 function ensureInitialAdmin() {
   try {
     const admins = db.getAdmins();
-    const envEmail = process.env.ADMIN_EMAIL || 'joelramireddy@gmail.com';
-    const envPassword = process.env.ADMIN_INITIAL_PASSWORD;
+    const envEmail = (process.env.ADMIN_EMAIL || 'joelramireddy@gmail.com').trim().toLowerCase();
+    const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_INITIAL_PASSWORD;
 
     // Check if an admin account already exists
     if (!admins || admins.length === 0) {
@@ -30,18 +30,36 @@ function ensureInitialAdmin() {
         const passwordHash = bcrypt.hashSync(envPassword, salt);
         const newAdmin = {
           id: 'admin-1',
-          email: envEmail.trim().toLowerCase(),
+          email: envEmail,
           name: 'Joel Rami Reddy',
           role: 'owner',
           passwordHash,
           createdAt: new Date().toISOString()
         };
         db.saveAdmins([newAdmin]);
-        console.log(`[AUTH] Initial administrator account created for ${envEmail} from environment.`);
+        console.log(`[AUTH] Administrator account initialized for ${envEmail}.`);
       } else {
-        console.warn('[AUTH WARNING] No admin accounts exist and ADMIN_INITIAL_PASSWORD is not set in environment.');
+        console.warn('[AUTH WARNING] No admin accounts exist and ADMIN_PASSWORD is not set in environment.');
       }
     } else {
+      if (envPassword) {
+        let admin = admins.find(a => a.email.toLowerCase() === envEmail);
+        if (!admin && admins.length > 0) {
+          admin = admins[0];
+          admin.email = envEmail;
+        }
+
+        if (admin) {
+          const matches = bcrypt.compareSync(envPassword, admin.passwordHash);
+          if (!matches) {
+            const salt = bcrypt.genSaltSync(10);
+            admin.passwordHash = bcrypt.hashSync(envPassword, salt);
+            admin.updatedAt = new Date().toISOString();
+            db.saveAdmins(admins);
+            console.log(`[AUTH] Administrator credentials synchronized securely.`);
+          }
+        }
+      }
       console.log(`[AUTH] Existing administrator accounts verified (${admins.length} account(s)).`);
     }
   } catch (err) {
