@@ -3,9 +3,12 @@ import {
   Menu, X, Phone, Clock, Shield, Home, 
   ShoppingBag, Info, Image, MapPin, ChevronRight 
 } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function Navbar({ activePage, setActivePage, onOpenAdmin }) {
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 

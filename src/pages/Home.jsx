@@ -4,13 +4,17 @@ import Hero from '../components/Hero';
 import QuickActions from '../components/QuickActions';
 import CategoryCard from '../components/CategoryCard';
 import ProductCard from '../components/ProductCard';
-import { storeInfo } from '../data/store';
-import { categories } from '../data/categories';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { categories as defaultCategories } from '../data/categories';
 import { getFeaturedProducts } from '../data/products';
+import { useStore } from '../context/StoreContext';
 
 export default function Home({ setActivePage, onCategorySelect }) {
   const [lightboxImage, setLightboxImage] = useState(null);
-  const featuredProducts = getFeaturedProducts();
+  const { categories: liveCategories, featuredProducts: liveFeatured, storeInfo: liveStoreInfo } = useStore();
+  const categories = (liveCategories && liveCategories.length > 0) ? liveCategories : defaultCategories;
+  const featuredProducts = (liveFeatured && liveFeatured.length > 0) ? liveFeatured : getFeaturedProducts();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
 
   const handleCategoryClick = (catId) => {
     onCategorySelect(catId);

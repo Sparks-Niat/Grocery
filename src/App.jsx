@@ -11,6 +11,7 @@ import MobileBottomBar from './components/MobileBottomBar';
 import AdminLayout from './admin/AdminLayout';
 import AdminLogin from './admin/AdminLogin';
 import { authStorage, adminApi } from './admin/api';
+import { StoreProvider } from './context/StoreContext';
 
 export default function App() {
   const [activePage, setActivePage] = useState('home');
@@ -174,7 +175,8 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-cream selection:bg-primary/10 selection:text-primary">
+    <StoreProvider>
+      <div className="flex flex-col min-h-screen bg-cream selection:bg-primary/10 selection:text-primary">
       {/* Global Brand Watermark — fixed behind all content, visible while scrolling */}
       <div
         aria-hidden="true"
@@ -221,6 +223,7 @@ export default function App() {
 
       {/* Mobile Sticky Quick Action Bar */}
       <MobileBottomBar />
-    </div>
+      </div>
+    </StoreProvider>
   );
 }

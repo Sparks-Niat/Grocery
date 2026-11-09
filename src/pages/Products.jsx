@@ -3,33 +3,15 @@ import { Search, SlidersHorizontal, MessageSquare, Phone, X } from 'lucide-react
 import ProductCard from '../components/ProductCard';
 import { products as initialProducts } from '../data/products';
 import { categories as initialCategories } from '../data/categories';
-import { storeInfo } from '../data/store';
+import { storeInfo as initialStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function Products({ selectedCategory, setSelectedCategory }) {
-  const [productsList, setProductsList] = useState(initialProducts);
-  const [categoriesList, setCategoriesList] = useState(initialCategories);
+  const { products: storeProducts, categories: storeCategories, storeInfo: storeSettings } = useStore();
+  const productsList = storeProducts && storeProducts.length > 0 ? storeProducts : initialProducts;
+  const categoriesList = storeCategories && storeCategories.length > 0 ? storeCategories : initialCategories;
+  const storeInfo = storeSettings || initialStoreInfo;
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // Real-time synchronization with Backend API (fallback to local data)
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setProductsList(data);
-        }
-      })
-      .catch(() => {});
-
-    fetch('/api/categories')
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setCategoriesList(data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   // Accept external categories filter event
   useEffect(() => {

@@ -1,9 +1,13 @@
 import React from 'react';
 import { ShoppingBasket, Phone, MessageSquare, MapPin, Clock, ArrowUp, Shield } from 'lucide-react';
-import { storeInfo } from '../data/store';
-import { categories } from '../data/categories';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { categories as defaultCategories } from '../data/categories';
+import { useStore } from '../context/StoreContext';
 
 export default function Footer({ setActivePage, onOpenAdmin }) {
+  const { categories: liveCategories, storeInfo: liveStoreInfo } = useStore();
+  const categories = (liveCategories && liveCategories.length > 0) ? liveCategories : defaultCategories;
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
   const handleLinkClick = (pageId) => {
     setActivePage(pageId);
     window.scrollTo({ top: 0, behavior: 'smooth' });

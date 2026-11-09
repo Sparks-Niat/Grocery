@@ -12,6 +12,7 @@ dotenv.config();
 
 import { db } from './db.js';
 import { generateToken, authenticateToken, verifyAdminLogin } from './auth.js';
+import { realtime } from './realtime.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -77,7 +78,7 @@ app.use(cors({
   origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-access-token', 'x-auth-token']
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -88,6 +89,24 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 app.use('/uploads', express.static(uploadsDir));
+
+// ==========================================
+// REAL-TIME SERVER-SENT EVENTS (SSE)
+// ==========================================
+
+// GET /api/realtime/events - Real-time SSE connection for customer storefronts & admin
+app.get('/api/realtime/events', (req, res) => {
+  realtime.handleConnection(req, res);
+});
+
+// GET /api/realtime/status - Health of real-time connection pool
+app.get('/api/realtime/status', (req, res) => {
+  res.json({
+    status: 'ok',
+    connectedClients: realtime.getClientCount(),
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Multer Storage Configuration
 const storage = multer.diskStorage({
@@ -347,6 +366,7 @@ app.post('/api/products', authenticateToken, (req, res) => {
     products.push(newProduct);
     db.saveProducts(products);
     db.addLog('PRODUCT_CREATED', `Added new product: ${newProduct.name} (₹${newProduct.price})`, req.user.email);
+    realtime.broadcast('product:created', newProduct);
 
     return res.status(201).json(newProduct);
   } catch (err) {
@@ -388,6 +408,7 @@ app.put('/api/products/:id', authenticateToken, (req, res) => {
       db.addLog('PRODUCT_UPDATED', `Updated product details: "${updated.name}"`, req.user.email);
     }
 
+    realtime.broadcast('product:updated', updated);
     return res.json(updated);
   } catch (err) {
     console.error('Update product error:', err);
@@ -407,6 +428,7 @@ app.delete('/api/products/:id', authenticateToken, (req, res) => {
     const deleted = products.splice(index, 1)[0];
     db.saveProducts(products);
     db.addLog('PRODUCT_DELETED', `Removed product: "${deleted.name}" (ID: ${deleted.id})`, req.user.email);
+    realtime.broadcast('product:deleted', { id: deleted.id });
 
     return res.json({ success: true, message: `Product "${deleted.name}" deleted successfully.` });
   } catch (err) {
@@ -448,6 +470,7 @@ app.post('/api/products/bulk', authenticateToken, (req, res) => {
 
     db.saveProducts(products);
     db.addLog('BULK_PRODUCT_UPDATE', `Bulk updated ${updatedCount} products with action: ${action}`, req.user.email);
+    realtime.broadcast('products:bulk', { action, productIds, payload });
 
     return res.json({ success: true, updatedCount });
   } catch (err) {
@@ -491,6 +514,7 @@ app.post('/api/inventory/adjust', authenticateToken, (req, res) => {
     });
 
     db.addLog('STOCK_ADJUSTED', `Adjusted stock for "${product.name}": ${prevStock} -> ${newStock} (${reason || 'Adjustment'})`, req.user.email);
+    realtime.broadcast('inventory:adjusted', { productId: product.id, stock: product.stock, inStock: product.inStock });
 
     return res.json({ success: true, product, log: logEntry });
   } catch (err) {
@@ -553,6 +577,7 @@ app.post('/api/categories', authenticateToken, (req, res) => {
     categories.push(newCategory);
     db.saveCategories(categories);
     db.addLog('CATEGORY_CREATED', `Added category: "${newCategory.name}"`, req.user.email);
+    realtime.broadcast('category:created', newCategory);
 
     return res.status(201).json(newCategory);
   } catch (err) {
@@ -577,6 +602,7 @@ app.put('/api/categories/:id', authenticateToken, (req, res) => {
     categories[index] = updated;
     db.saveCategories(categories);
     db.addLog('CATEGORY_UPDATED', `Updated category: "${updated.name}"`, req.user.email);
+    realtime.broadcast('category:updated', updated);
 
     return res.json(updated);
   } catch (err) {
@@ -604,6 +630,7 @@ app.delete('/api/categories/:id', authenticateToken, (req, res) => {
     const deleted = categories.splice(index, 1)[0];
     db.saveCategories(categories);
     db.addLog('CATEGORY_DELETED', `Deleted category: "${deleted.name}"`, req.user.email);
+    realtime.broadcast('category:deleted', { id: deleted.id });
 
     return res.json({ success: true, message: `Category "${deleted.name}" deleted successfully.` });
   } catch (err) {
@@ -798,6 +825,7 @@ app.post('/api/coupons', authenticateToken, (req, res) => {
     coupons.push(newCoupon);
     db.saveCoupons(coupons);
     db.addLog('COUPON_CREATED', `Created coupon: "${newCoupon.code}" (${newCoupon.discountValue})`, req.user.email);
+    realtime.broadcast('coupon:created', newCoupon);
 
     return res.status(201).json(newCoupon);
   } catch (err) {
@@ -816,6 +844,7 @@ app.delete('/api/coupons/:id', authenticateToken, (req, res) => {
     const deleted = coupons.splice(index, 1)[0];
     db.saveCoupons(coupons);
     db.addLog('COUPON_DELETED', `Deleted coupon: "${deleted.code}"`, req.user.email);
+    realtime.broadcast('coupon:deleted', { id: deleted.id });
 
     return res.json({ success: true, message: `Coupon "${deleted.code}" deleted.` });
   } catch (err) {
@@ -846,6 +875,7 @@ app.put('/api/settings', authenticateToken, (req, res) => {
 
     db.saveSettings(updated);
     db.addLog('SETTINGS_UPDATED', `Updated store configuration and contact details`, req.user.email);
+    realtime.broadcast('settings:updated', updated);
 
     return res.json(updated);
   } catch (err) {
@@ -895,10 +925,14 @@ app.get('/api/health', (req, res) => {
 });
 
 // Start Express Server
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`  Sri Manikanta Sai General Store — Backend API`);
-  console.log(`  Listening on: http://localhost:${PORT}`);
-  console.log(`  Status: Running and Ready for Admin Operations`);
-  console.log(`====================================================`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`  Sri Manikanta Sai General Store — Backend API`);
+    console.log(`  Listening on: http://localhost:${PORT}`);
+    console.log(`  Status: Running and Ready for Admin Operations`);
+    console.log(`====================================================`);
+  });
+}
+
+export default app;

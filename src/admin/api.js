@@ -3,7 +3,15 @@
 const TOKEN_KEY = 'sms_admin_token';
 const ADMIN_USER_KEY = 'sms_admin_user';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const DEFAULT_PROD_API = 'https://grocery-k0jb.onrender.com';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  (typeof window !== 'undefined' && 
+   window.location.hostname && 
+   !window.location.hostname.includes('localhost') && 
+   !window.location.hostname.includes('127.0.0.1')
+    ? DEFAULT_PROD_API
+    : '');
 
 function buildApiUrl(endpoint) {
   if (API_BASE_URL) {
@@ -38,6 +46,7 @@ async function request(endpoint, options = {}) {
 
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
+    headers['x-access-token'] = token;
   }
 
   // Only set Content-Type if not sending FormData
@@ -187,9 +196,16 @@ export const adminApi = {
   uploadImage: async (file) => {
     const formData = new FormData();
     formData.append('image', file);
-    return request('/upload', {
+    const data = await request('/upload', {
       method: 'POST',
       body: formData
     });
+    if (data && data.imageUrl && !data.imageUrl.startsWith('http')) {
+      const base = API_BASE_URL || (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') ? DEFAULT_PROD_API : '');
+      if (base) {
+        data.imageUrl = `${base}${data.imageUrl}`;
+      }
+    }
+    return data;
   }
 };

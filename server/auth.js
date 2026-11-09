@@ -26,8 +26,27 @@ export function verifyToken(token) {
 }
 
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+  let token = null;
+
+  // 1. Standard Authorization: Bearer <token> (or raw token)
+  const authHeader = req.headers['authorization'] || req.headers['Authorization'];
+  if (authHeader) {
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7).trim();
+    } else {
+      token = authHeader.trim();
+    }
+  }
+
+  // 2. Custom header fallback (protects against reverse proxies that strip Authorization)
+  if (!token) {
+    token = req.headers['x-access-token'] || req.headers['x-auth-token'];
+  }
+
+  // 3. Query parameter fallback
+  if (!token && req.query?.token) {
+    token = req.query.token;
+  }
 
   if (!token) {
     return res.status(401).json({ error: 'Access denied. No authentication token provided.' });
