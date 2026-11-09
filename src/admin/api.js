@@ -3,6 +3,15 @@
 const TOKEN_KEY = 'sms_admin_token';
 const ADMIN_USER_KEY = 'sms_admin_user';
 
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
+function buildApiUrl(endpoint) {
+  if (API_BASE_URL) {
+    return `${API_BASE_URL}/api${endpoint}`;
+  }
+  return `/api${endpoint}`;
+}
+
 export const authStorage = {
   getToken: () => localStorage.getItem(TOKEN_KEY),
   setToken: (token) => localStorage.setItem(TOKEN_KEY, token),
@@ -36,7 +45,7 @@ async function request(endpoint, options = {}) {
     headers['Content-Type'] = 'application/json';
   }
 
-  const res = await fetch(`/api${endpoint}`, {
+  const res = await fetch(buildApiUrl(endpoint), {
     ...options,
     headers
   });

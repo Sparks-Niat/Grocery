@@ -73,7 +73,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -115,8 +120,8 @@ const upload = multer({
 // AUTHENTICATION ROUTES
 // ==========================================
 
-// POST /api/auth/login
-app.post('/api/auth/login', async (req, res) => {
+// Handle admin login (supports both /api/auth/login and /api/admin/login)
+const handleAdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -140,15 +145,21 @@ app.post('/api/auth/login', async (req, res) => {
     console.error('Login error:', err);
     return res.status(500).json({ error: 'Internal server error during authentication.' });
   }
-});
+};
 
-// GET /api/auth/verify
-app.get('/api/auth/verify', authenticateToken, (req, res) => {
+app.post('/api/auth/login', handleAdminLogin);
+app.post('/api/admin/login', handleAdminLogin);
+
+// Handle session verification (supports both /api/auth/verify and /api/admin/verify)
+const handleAdminVerify = (req, res) => {
   return res.json({
     valid: true,
     user: req.user
   });
-});
+};
+
+app.get('/api/auth/verify', authenticateToken, handleAdminVerify);
+app.get('/api/admin/verify', authenticateToken, handleAdminVerify);
 
 // POST /api/auth/change-password
 app.post('/api/auth/change-password', authenticateToken, async (req, res) => {
