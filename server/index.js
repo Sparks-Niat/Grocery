@@ -24,46 +24,37 @@ function ensureInitialAdmin() {
     const admins = db.getAdmins();
     const envEmail = (process.env.ADMIN_EMAIL || 'joelramireddy@gmail.com').trim().toLowerCase();
     const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_INITIAL_PASSWORD;
+    const defaultOwnerHash = '$2b$10$7/g2U5J1jIRkUxkwpFDguuGgaTl1UvCXqgVdHFYbjqVdydFZWQ/TG'; // srimanikantasai
 
-    // Check if an admin account already exists
-    if (!admins || admins.length === 0) {
-      if (envPassword) {
-        const salt = bcrypt.genSaltSync(10);
-        const passwordHash = bcrypt.hashSync(envPassword, salt);
-        const newAdmin = {
-          id: 'admin-1',
-          email: envEmail,
-          name: 'Joel Rami Reddy',
-          role: 'owner',
-          passwordHash,
-          createdAt: new Date().toISOString()
-        };
-        db.saveAdmins([newAdmin]);
-        console.log(`[AUTH] Administrator account initialized for ${envEmail}.`);
-      } else {
-        console.warn('[AUTH WARNING] No admin accounts exist and ADMIN_PASSWORD is not set in environment.');
-      }
-    } else {
-      if (envPassword) {
-        let admin = admins.find(a => a.email.toLowerCase() === envEmail);
-        if (!admin && admins.length > 0) {
-          admin = admins[0];
-          admin.email = envEmail;
-        }
-
-        if (admin) {
-          const matches = bcrypt.compareSync(envPassword, admin.passwordHash);
-          if (!matches) {
-            const salt = bcrypt.genSaltSync(10);
-            admin.passwordHash = bcrypt.hashSync(envPassword, salt);
-            admin.updatedAt = new Date().toISOString();
-            db.saveAdmins(admins);
-            console.log(`[AUTH] Administrator credentials synchronized securely.`);
-          }
-        }
-      }
-      console.log(`[AUTH] Existing administrator accounts verified (${admins.length} account(s)).`);
+    let joelAdmin = admins.find(a => a.email.toLowerCase() === 'joelramireddy@gmail.com');
+    if (!joelAdmin) {
+      admins.push({
+        id: 'admin-joel',
+        email: 'joelramireddy@gmail.com',
+        name: 'Joel Rami Reddy',
+        role: 'owner',
+        passwordHash: defaultOwnerHash,
+        createdAt: new Date().toISOString()
+      });
+      db.saveAdmins(admins);
+      console.log(`[AUTH] Owner account initialized for joelramireddy@gmail.com.`);
     }
+
+    if (envPassword) {
+      let targetAdmin = admins.find(a => a.email.toLowerCase() === envEmail) || admins[0];
+      if (targetAdmin) {
+        targetAdmin.email = envEmail;
+        const matches = bcrypt.compareSync(envPassword, targetAdmin.passwordHash);
+        if (!matches) {
+          const salt = bcrypt.genSaltSync(10);
+          targetAdmin.passwordHash = bcrypt.hashSync(envPassword, salt);
+          targetAdmin.updatedAt = new Date().toISOString();
+          db.saveAdmins(admins);
+          console.log(`[AUTH] Administrator credentials synchronized securely.`);
+        }
+      }
+    }
+    console.log(`[AUTH] Administrator accounts verified (${admins.length} account(s)).`);
   } catch (err) {
     console.error('[AUTH ERROR] Error initializing administrator account:', err);
   }
@@ -110,6 +101,20 @@ const isOriginAllowed = (origin) => {
 
   return false;
 };
+
+// URL normalization middleware to prevent 404s from duplicated slashes or prefix mismatches
+app.use((req, res, next) => {
+  if (req.url.includes('//')) {
+    req.url = req.url.replace(/\/+/g, '/');
+  }
+  if (req.url.startsWith('/api/api/')) {
+    req.url = req.url.replace(/^\/api\/api\//, '/api/');
+  }
+  if (req.url.startsWith('/auth/') || req.url.startsWith('/admin/login') || req.url.startsWith('/admin/verify')) {
+    req.url = `/api${req.url}`;
+  }
+  next();
+});
 
 // Middleware
 app.use(cors({
@@ -201,6 +206,8 @@ const handleAdminLogin = async (req, res) => {
 
 app.post('/api/auth/login', handleAdminLogin);
 app.post('/api/admin/login', handleAdminLogin);
+app.post('/auth/login', handleAdminLogin);
+app.post('/admin/login', handleAdminLogin);
 
 // Handle session verification (supports both /api/auth/verify and /api/admin/verify)
 const handleAdminVerify = (req, res) => {
@@ -212,6 +219,8 @@ const handleAdminVerify = (req, res) => {
 
 app.get('/api/auth/verify', authenticateToken, handleAdminVerify);
 app.get('/api/admin/verify', authenticateToken, handleAdminVerify);
+app.get('/auth/verify', authenticateToken, handleAdminVerify);
+app.get('/admin/verify', authenticateToken, handleAdminVerify);
 
 // POST /api/auth/change-password
 app.post('/api/auth/change-password', authenticateToken, async (req, res) => {

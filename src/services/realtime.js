@@ -4,16 +4,20 @@
 const DEFAULT_PROD_API = 'https://grocery-k0jb.onrender.com';
 
 function getSseUrl() {
-  const customUrl = import.meta.env.VITE_API_URL;
+  const customUrl = (import.meta.env.VITE_API_URL || '').trim();
   if (customUrl) {
-    return `${customUrl.replace(/\/+$/, '')}/api/realtime/events`;
+    const clean = customUrl.replace(/\/+$/, '');
+    if (clean.endsWith('/api')) {
+      return clean + '/realtime/events';
+    }
+    return clean + '/api/realtime/events';
   }
-  // If running in production browser on non-localhost domain, connect directly to Render backend
   if (typeof window !== 'undefined' && 
       window.location.hostname && 
       !window.location.hostname.includes('localhost') && 
       !window.location.hostname.includes('127.0.0.1')) {
-    return `${DEFAULT_PROD_API}/api/realtime/events`;
+    const cleanDefault = DEFAULT_PROD_API.replace(/\/+$/, '');
+    return cleanDefault + '/api/realtime/events';
   }
   return '/api/realtime/events';
 }

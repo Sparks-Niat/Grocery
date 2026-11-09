@@ -14,10 +14,15 @@ const API_BASE_URL = import.meta.env.VITE_API_URL ||
     : '');
 
 function buildApiUrl(endpoint) {
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
   if (API_BASE_URL) {
-    return `${API_BASE_URL}/api${endpoint}`;
+    const cleanBase = API_BASE_URL.replace(/\/+$/, '');
+    if (cleanBase.endsWith('/api')) {
+      return cleanBase + cleanEndpoint;
+    }
+    return cleanBase + '/api' + cleanEndpoint;
   }
-  return `/api${endpoint}`;
+  return '/api' + cleanEndpoint;
 }
 
 export const authStorage = {
@@ -71,7 +76,13 @@ async function request(endpoint, options = {}) {
 
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.error || `Request failed with status ${res.status}`);
+    if (res.status === 404) {
+      throw new Error(data.error || 'The authentication service could not be reached (404 Not Found). Please verify backend connectivity.');
+    }
+    if (res.status === 502 || res.status === 503 || res.status === 504) {
+      throw new Error(data.error || 'Backend service is starting up on Render. Please wait 10 seconds and try again.');
+    }
+    throw new Error(data.error || ('Request failed with status ' + res.status));
   }
 
   return data;

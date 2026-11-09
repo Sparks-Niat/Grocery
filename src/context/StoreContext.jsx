@@ -21,17 +21,23 @@ const FEATURED_IDS = [
 const DEFAULT_PROD_API = 'https://grocery-k0jb.onrender.com';
 
 function getApiUrl(path) {
-  const customUrl = import.meta.env.VITE_API_URL;
+  const cleanPath = path.startsWith('/') ? path : '/' + path;
+  const customUrl = (import.meta.env.VITE_API_URL || '').trim();
   if (customUrl) {
-    return `${customUrl.replace(/\/+$/, '')}${path}`;
+    const cleanCustom = customUrl.replace(/\/+$/, '');
+    if (cleanCustom.endsWith('/api') && cleanPath.startsWith('/api/')) {
+      return cleanCustom + cleanPath.slice(4);
+    }
+    return cleanCustom + cleanPath;
   }
   if (typeof window !== 'undefined' && 
       window.location.hostname && 
       !window.location.hostname.includes('localhost') && 
       !window.location.hostname.includes('127.0.0.1')) {
-    return `${DEFAULT_PROD_API}${path}`;
+    const cleanDefault = DEFAULT_PROD_API.replace(/\/+$/, '');
+    return cleanDefault + cleanPath;
   }
-  return path;
+  return cleanPath;
 }
 
 export function StoreProvider({ children }) {
