@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env
@@ -13,6 +13,7 @@ dotenv.config();
 import { db } from './db.js';
 import { generateToken, authenticateToken, verifyAdminLogin } from './auth.js';
 import { realtime } from './realtime.js';
+import { uploadToCloudinary, deleteFromCloudinary } from './cloudinary.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,11 +72,54 @@ function ensureInitialAdmin() {
 ensureInitialAdmin();
 
 const app = express();
+app.disable('x-powered-by');
 const PORT = process.env.PORT || 5000;
+
+// Production CORS Configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'https://grocerykcl.vercel.app'
+];
+
+if (process.env.FRONTEND_URL) {
+  process.env.FRONTEND_URL.split(',').forEach(u => {
+    const trimmed = u.trim().replace(/\/+$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach(u => {
+    const trimmed = u.trim().replace(/\/+$/, '');
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  const normalized = origin.replace(/\/+$/, '');
+  if (allowedOrigins.includes(normalized)) return true;
+
+  try {
+    const { hostname } = new URL(origin);
+    if (hostname.endsWith('.vercel.app') || hostname === 'vercel.app') return true;
+    if (process.env.NODE_ENV !== 'production' && (hostname === 'localhost' || hostname === '127.0.0.1')) return true;
+  } catch (_) {}
+
+  return false;
+};
 
 // Middleware
 app.use(cors({
-  origin: true,
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-access-token', 'x-auth-token']
@@ -108,29 +152,18 @@ app.get('/api/realtime/status', (req, res) => {
   });
 });
 
-// Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const cleanBase = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-    cb(null, `${cleanBase}_${Date.now()}${ext}`);
-  }
-});
-
+// Multer in-memory storage (for Cloudinary stream upload with local fallback)
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
   fileFilter: (req, file, cb) => {
-    const allowed = /jpeg|jpg|png|webp|svg/;
+    const allowed = /jpeg|jpg|png|webp|svg|gif|avif/;
     const ext = path.extname(file.originalname).toLowerCase().slice(1);
     const mime = file.mimetype;
     if (allowed.test(ext) || allowed.test(mime)) {
       cb(null, true);
     } else {
-      cb(new Error('Only JPEG, PNG, WEBP, and SVG image files are allowed.'));
+      cb(new Error('Only JPEG, PNG, WEBP, GIF, and SVG image files are allowed.'));
     }
   }
 });
@@ -385,6 +418,10 @@ app.put('/api/products/:id', authenticateToken, (req, res) => {
     }
 
     const oldProduct = products[index];
+    if (req.body.publicId && oldProduct.publicId && oldProduct.publicId !== req.body.publicId) {
+      deleteFromCloudinary(oldProduct.publicId).catch(() => {});
+    }
+
     const updated = {
       ...oldProduct,
       ...req.body,
@@ -427,6 +464,10 @@ app.delete('/api/products/:id', authenticateToken, (req, res) => {
 
     const deleted = products.splice(index, 1)[0];
     db.saveProducts(products);
+    db.deleteProductFromDb(deleted.id);
+    if (deleted.publicId) {
+      deleteFromCloudinary(deleted.publicId).catch(() => {});
+    }
     db.addLog('PRODUCT_DELETED', `Removed product: "${deleted.name}" (ID: ${deleted.id})`, req.user.email);
     realtime.broadcast('product:deleted', { id: deleted.id });
 
@@ -629,6 +670,10 @@ app.delete('/api/categories/:id', authenticateToken, (req, res) => {
 
     const deleted = categories.splice(index, 1)[0];
     db.saveCategories(categories);
+    db.deleteCategoryFromDb(deleted.id);
+    if (deleted.publicId) {
+      deleteFromCloudinary(deleted.publicId).catch(() => {});
+    }
     db.addLog('CATEGORY_DELETED', `Deleted category: "${deleted.name}"`, req.user.email);
     realtime.broadcast('category:deleted', { id: deleted.id });
 
@@ -899,19 +944,48 @@ app.get('/api/logs', authenticateToken, (req, res) => {
 // ==========================================
 
 // POST /api/upload
-app.post('/api/upload', authenticateToken, upload.single('image'), (req, res) => {
+app.post('/api/upload', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No image file provided.' });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
-    db.addLog('IMAGE_UPLOADED', `Uploaded image: ${req.file.filename}`, req.user.email);
+    // Attempt Cloudinary upload first if credentials are configured
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+      try {
+        const folder = req.body?.folder ? `grocery-mart/${req.body.folder}` : 'grocery-mart/products';
+        const result = await uploadToCloudinary(req.file.buffer, { folder });
+        db.addLog('IMAGE_UPLOADED', `Uploaded Cloudinary image: ${result.public_id}`, req.user?.email || 'admin');
+
+        return res.json({
+          success: true,
+          imageUrl: result.secure_url,
+          url: result.secure_url,
+          publicId: result.public_id,
+          public_id: result.public_id,
+          format: result.format,
+          bytes: result.bytes
+        });
+      } catch (cloudErr) {
+        console.error('Cloudinary upload failure, using local fallback:', cloudErr.message);
+      }
+    }
+
+    // Local Disk Fallback
+    const ext = path.extname(req.file.originalname).toLowerCase() || '.jpg';
+    const cleanBase = path.basename(req.file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const filename = `${cleanBase}_${Date.now()}${ext}`;
+    const localPath = path.join(uploadsDir, filename);
+    fs.writeFileSync(localPath, req.file.buffer);
+
+    const imageUrl = `/uploads/${filename}`;
+    db.addLog('IMAGE_UPLOADED', `Uploaded local image: ${filename}`, req.user?.email || 'admin');
 
     return res.json({
       success: true,
       imageUrl,
-      filename: req.file.filename
+      url: imageUrl,
+      filename
     });
   } catch (err) {
     console.error('Upload error:', err);
@@ -919,9 +993,43 @@ app.post('/api/upload', authenticateToken, upload.single('image'), (req, res) =>
   }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', store: 'Sri Manikanta Sai General Store API', timestamp: new Date().toISOString() });
+// DELETE /api/upload
+app.delete('/api/upload', authenticateToken, async (req, res) => {
+  const targetId = req.body?.publicId || req.body?.public_id || req.query?.publicId || req.query?.public_id;
+  if (!targetId || typeof targetId !== 'string') {
+    return res.status(400).json({ error: 'Valid publicId is required for deletion.' });
+  }
+
+  try {
+    const result = await deleteFromCloudinary(targetId);
+    return res.json({ success: true, result });
+  } catch (err) {
+    console.error('Cloudinary delete error:', err.message);
+    return res.status(500).json({ error: 'Failed to delete asset from Cloudinary.' });
+  }
+});
+
+// Health check with Neon PostgreSQL and Cloudinary dependency validation
+app.get('/api/health', async (req, res) => {
+  const neonTest = await db.testConnection();
+  const isCloudinaryConfigured = Boolean(
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+  );
+
+  const isDbHealthy = neonTest.ok || db.isPostgresConnected();
+
+  res.json({
+    status: isDbHealthy ? 'healthy' : 'degraded',
+    store: 'Sri Manikanta Sai General Store API',
+    database: isDbHealthy ? 'connected' : 'offline_cache',
+    databaseType: 'Neon PostgreSQL',
+    storage: isCloudinaryConfigured ? 'configured' : 'local_fallback',
+    storageProvider: isCloudinaryConfigured ? 'Cloudinary' : 'Local Disk',
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Start Express Server

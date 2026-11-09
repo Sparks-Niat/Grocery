@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { db } from './db.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'sri_manikanta_sai_secure_jwt_secret_key_2026_@9981';
@@ -63,11 +63,13 @@ export function authenticateToken(req, res, next) {
 
 export async function verifyAdminLogin(email, password) {
   if (!email || !password) return null;
+  const cleanEmail = email.trim().toLowerCase();
   const admins = db.getAdmins();
-  const admin = admins.find(a => a.email.toLowerCase() === email.trim().toLowerCase());
+  const admin = admins.find(a => a.email.toLowerCase() === cleanEmail);
   if (!admin) return null;
 
-  const valid = await bcrypt.compare(password, admin.passwordHash);
+  const hash = admin.passwordHash || admin.password;
+  const valid = await bcrypt.compare(password, hash);
   if (!valid) return null;
 
   return {

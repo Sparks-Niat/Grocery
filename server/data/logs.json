@@ -1,5 +1,26 @@
 [
   {
+    "id": "log-1794246988318-377",
+    "action": "PRODUCT_DELETED",
+    "details": "Removed product: \"Audit Test Pulse Item\" (ID: audit-test-1794246988304)",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-11-09T17:56:28.318Z"
+  },
+  {
+    "id": "log-1794246988314-838",
+    "action": "PRICE_UPDATED",
+    "details": "Price changed for \"Audit Test Pulse Item\" from ₹88 to ₹92",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-11-09T17:56:28.314Z"
+  },
+  {
+    "id": "log-1794246988308-579",
+    "action": "PRODUCT_CREATED",
+    "details": "Added new product: Audit Test Pulse Item (₹88)",
+    "admin": "joelramireddy@gmail.com",
+    "timestamp": "2026-11-09T17:56:28.308Z"
+  },
+  {
     "id": "log-1794205753221-76",
     "action": "ADMIN_LOGIN",
     "details": "Admin joelramireddy@gmail.com logged in successfully",
