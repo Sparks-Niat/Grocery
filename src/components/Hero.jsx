@@ -31,7 +31,7 @@ export default function Hero({ onExploreClick, onDirectionsClick }) {
 
           {/* Description */}
           <p className="text-cream-light/95 text-base sm:text-lg lg:text-xl font-normal leading-relaxed mb-10 max-w-xl">
-            From everyday groceries and kitchen essentials to snacks, beverages, stationery, and household needs — discover your daily essentials at your trusted local store in Nandigama.
+            From everyday groceries and kitchen essentials to snacks, beverages, stationery, and household needs — discover your daily essentials at your trusted local store in Kanchikacherla.
           </p>
 
           {/* CTAs */}

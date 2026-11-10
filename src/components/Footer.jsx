@@ -42,18 +42,18 @@ export default function Footer({ setActivePage, onOpenAdmin }) {
               </div>
             </div>
             <p className="text-sm text-cream-light/60 leading-relaxed">
-              Discover your daily essentials at your trusted local neighborhood store. Convenient, welcoming, and fully stocked for Nandigama families.
+              Discover your daily essentials at your trusted local neighborhood store. Convenient, welcoming, and fully stocked for Kanchikacherla families.
             </p>
             <div className="pt-2 flex items-center space-x-3">
               <a 
-                href={`tel:${storeInfo.phone}`}
+                href={storeInfo.callUrl || "tel:9542670795"}
                 className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-colors"
                 aria-label="Call Store"
               >
                 <Phone size={14} />
               </a>
               <a 
-                href={`https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
+                href={`${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-colors"
@@ -155,7 +155,7 @@ export default function Footer({ setActivePage, onOpenAdmin }) {
             </div>
             <div className="flex items-center space-x-3 text-sm">
               <Phone size={16} className="text-accent shrink-0" />
-              <a href={`tel:${storeInfo.phone}`} className="hover:underline">{storeInfo.phone}</a>
+              <a href={storeInfo.callUrl || "tel:9542670795"} className="hover:underline">{storeInfo.phoneDisplay || storeInfo.phone}</a>
             </div>
             <div className="flex items-start space-x-3 text-sm">
               <Clock size={16} className="text-accent shrink-0 mt-0.5" />

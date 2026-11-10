@@ -81,7 +81,7 @@ fs.writeFileSync(path.join(dataDir, 'orders.json'), JSON.stringify([
     orderDate: new Date(Date.now() - 3600000 * 4).toISOString(),
     customerName: "K. Venkateswara Rao",
     customerPhone: "+91 98480 12345",
-    deliveryAddress: "Near Gandhi Center, Nandigama",
+    deliveryAddress: "Main Road, Kanchikacherla",
     items: [
       { id: "snk-bingo", name: "Bingo Mad Angles / Ridge", price: 10, quantity: 2, total: 20 },
       { id: "tea-3roses", name: "3 Roses Tea Powder", price: 75, quantity: 1, total: 75 },
@@ -100,7 +100,7 @@ fs.writeFileSync(path.join(dataDir, 'orders.json'), JSON.stringify([
     orderDate: new Date(Date.now() - 3600000 * 1).toISOString(),
     customerName: "S. Lakshmi",
     customerPhone: "+91 94401 67890",
-    deliveryAddress: "Temple Road, Nandigama",
+    deliveryAddress: "Temple Road, Kanchikacherla",
     items: [
       { id: "bisc-goodday", name: "Britannia Good Day Biscuits", price: 10, quantity: 4, total: 40 },
       { id: "dairy-milk", name: "Milk (Fresh / Packet)", price: 34, quantity: 2, total: 68 },
@@ -135,7 +135,7 @@ fs.writeFileSync(path.join(dataDir, 'customers.json'), JSON.stringify([
     id: "cust-1",
     name: "K. Venkateswara Rao",
     phone: "+91 98480 12345",
-    address: "Near Gandhi Center, Nandigama",
+    address: "Main Road, Kanchikacherla",
     totalOrders: 1,
     lastOrderDate: new Date(Date.now() - 3600000 * 4).toISOString(),
     status: "Active"
@@ -144,7 +144,7 @@ fs.writeFileSync(path.join(dataDir, 'customers.json'), JSON.stringify([
     id: "cust-2",
     name: "S. Lakshmi",
     phone: "+91 94401 67890",
-    address: "Temple Road, Nandigama",
+    address: "Temple Road, Kanchikacherla",
     totalOrders: 1,
     lastOrderDate: new Date(Date.now() - 3600000 * 1).toISOString(),
     status: "Active"

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Phone, MessageSquare, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function Contact() {
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -21,7 +24,7 @@ export default function Contact() {
 
     // Build the WhatsApp message content
     const text = `Hello ${storeInfo.shortName}, my name is ${formData.name} (${formData.phone}). I have an inquiry: ${formData.message}`;
-    const whatsappUrl = `https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
+    const whatsappUrl = `${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(text)}`;
     
     // Open in new tab
     window.open(whatsappUrl, '_blank');
@@ -73,8 +76,8 @@ export default function Contact() {
                   <h4 className="font-bold text-charcoal-dark uppercase text-[10px] tracking-widest mb-1">
                     Call Directory
                   </h4>
-                  <a href={`tel:${storeInfo.phone}`} className="text-primary hover:underline font-semibold leading-relaxed">
-                    {storeInfo.phone}
+                  <a href={storeInfo.callUrl || "tel:9542670795"} className="text-primary hover:underline font-semibold leading-relaxed">
+                    {storeInfo.phoneDisplay || storeInfo.phone}
                   </a>
                 </div>
               </div>
@@ -86,12 +89,12 @@ export default function Contact() {
                     WhatsApp Chat
                   </h4>
                   <a 
-                    href={`https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}`} 
+                    href={storeInfo.whatsappUrl || "https://wa.me/919542670795"} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-primary hover:underline font-semibold leading-relaxed"
                   >
-                    {storeInfo.whatsapp}
+                    {storeInfo.whatsappDisplay || storeInfo.whatsapp}
                   </a>
                 </div>
               </div>

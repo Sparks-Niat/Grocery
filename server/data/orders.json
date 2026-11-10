@@ -4,7 +4,7 @@
     "orderDate": "2026-10-22T13:17:50.540Z",
     "customerName": "K. Venkateswara Rao",
     "customerPhone": "+91 98480 12345",
-    "deliveryAddress": "Near Gandhi Center, Nandigama",
+    "deliveryAddress": "Main Road, Kanchikacherla",
     "items": [
       {
         "id": "snk-bingo",
@@ -41,7 +41,7 @@
     "orderDate": "2026-10-22T16:17:50.540Z",
     "customerName": "S. Lakshmi",
     "customerPhone": "+91 94401 67890",
-    "deliveryAddress": "Temple Road, Nandigama",
+    "deliveryAddress": "Temple Road, Kanchikacherla",
     "items": [
       {
         "id": "bisc-goodday",

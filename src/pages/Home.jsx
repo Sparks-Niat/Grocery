@@ -258,8 +258,8 @@ export default function Home({ setActivePage, onCategorySelect }) {
                         Contact Details
                       </h4>
                       <div className="text-charcoal/80 text-sm space-y-1">
-                        <p>Phone: <a href={`tel:${storeInfo.phone}`} className="hover:underline font-semibold">{storeInfo.phone}</a></p>
-                        <p>WhatsApp: <a href={`https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold">{storeInfo.whatsapp}</a></p>
+                        <p>Phone: <a href={storeInfo.callUrl || "tel:9542670795"} className="hover:underline font-semibold">{storeInfo.phoneDisplay || storeInfo.phone}</a></p>
+                        <p>WhatsApp: <a href={storeInfo.whatsappUrl || "https://wa.me/919542670795"} target="_blank" rel="noopener noreferrer" className="hover:underline font-semibold">{storeInfo.whatsappDisplay || storeInfo.whatsapp}</a></p>
                       </div>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export default function Home({ setActivePage, onCategorySelect }) {
               
               <div className="mt-8 pt-8 border-t border-cream-dark flex gap-4">
                 <a 
-                  href={`tel:${storeInfo.phone}`}
+                  href={storeInfo.callUrl || "tel:9542670795"}
                   className="flex-1 inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-primary hover:bg-primary-dark text-cream font-bold text-sm shadow transition-colors"
                 >
                   <Phone size={14} className="text-accent" />
@@ -296,7 +296,7 @@ export default function Home({ setActivePage, onCategorySelect }) {
                 </a>
                 
                 <a 
-                  href={`https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
+                  href={`${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-white hover:bg-cream-dark text-charcoal-dark font-bold text-sm border border-cream-dark shadow-sm transition-colors"

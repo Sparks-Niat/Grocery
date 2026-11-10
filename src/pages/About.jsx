@@ -1,8 +1,11 @@
 import React from 'react';
 import { Sparkles, Heart, Compass, ShieldCheck, MapPin } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function About() {
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
   const values = [
     {
       title: "Fresh & Quality Standards",
@@ -11,7 +14,7 @@ export default function About() {
     },
     {
       title: "Community First",
-      description: "We are deeply rooted in Nandigama. We treat our shoppers as friends and neighbors, not numbers.",
+      description: "We are deeply rooted in Kanchikacherla. We treat our shoppers as friends and neighbors, not numbers.",
       icon: <Heart className="text-accent-dark w-6 h-6" />
     },
     {
@@ -38,7 +41,7 @@ export default function About() {
             Serving Our Community with Pride
           </h1>
           <p className="text-charcoal/70 text-base sm:text-lg">
-            {storeInfo.name} was founded with a simple goal: to make everyday shopping a pleasant, convenient, and reliable experience for families in Nandigama.
+            {storeInfo.name} was founded with a simple goal: to make everyday shopping a pleasant, convenient, and reliable experience for families in Kanchikacherla.
           </p>
         </div>
       </div>
@@ -108,10 +111,10 @@ export default function About() {
         <div className="max-w-2xl mx-auto">
           <MapPin className="text-primary w-12 h-12 mx-auto mb-4" />
           <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-primary mb-4">
-            Conveniently Located on Main Road
+            Conveniently Located in Kanchikacherla
           </h2>
           <p className="text-charcoal/70 text-sm sm:text-base mb-8">
-            Our store is situated near the landmark Gandhi Center in Nandigama. We have dedicated parking spaces for customer two-wheelers, making your quick grocery run stress-free.
+            Our store is conveniently situated in Kanchikacherla, Andhra Pradesh. We have dedicated parking spaces for customer two-wheelers, making your quick grocery run stress-free.
           </p>
           <a
             href={storeInfo.googleMapsUrl}

@@ -227,7 +227,7 @@ export default function OrdersTab() {
                   Sri Manikanta Sai General Store
                 </h3>
                 <p className="text-[11px] text-slate-500">
-                  Main Road, Nandigama • Phone: {storeInfo.phone}
+                  {storeInfo.address} • Phone: {storeInfo.phoneDisplay || storeInfo.phone}
                 </p>
               </div>
               <button

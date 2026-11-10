@@ -45,7 +45,7 @@ export default function Products({ selectedCategory, setSelectedCategory }) {
             Our Everyday Essentials
           </h1>
           <p className="text-charcoal/70 text-sm sm:text-base">
-            Explore a selection of products available on our shelves today. Browse by category, search specific items, and visit us in Nandigama to shop.
+            Explore a selection of products available on our shelves today. Browse by category, search specific items, and visit us in Kanchikacherla to shop.
           </p>
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function Products({ selectedCategory, setSelectedCategory }) {
             </p>
             <div className="flex flex-wrap gap-4">
               <a
-                href={`https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
+                href={`${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-accent py-3 px-6 text-sm flex items-center space-x-2"
@@ -187,7 +187,7 @@ export default function Products({ selectedCategory, setSelectedCategory }) {
                 <span>Message on WhatsApp</span>
               </a>
               <a
-                href={`tel:${storeInfo.phone}`}
+                href={storeInfo.callUrl || "tel:9542670795"}
                 className="bg-white/10 hover:bg-white/20 text-cream border border-white/20 px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 flex items-center space-x-2"
               >
                 <Phone size={16} />

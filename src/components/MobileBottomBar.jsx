@@ -1,16 +1,19 @@
 import React from 'react';
 import { Phone, MessageCircle, MapPin } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function MobileBottomBar() {
-  const whatsappUrl = `https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`;
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
+  const whatsappUrl = `${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 block sm:hidden bg-white/95 backdrop-blur-md border-t border-cream-dark/60 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
       <div className="flex justify-around items-center h-16 px-2">
         {/* Call Action */}
         <a 
-          href={`tel:${storeInfo.phone}`}
+          href={storeInfo.callUrl || "tel:9542670795"}
           className="flex flex-col items-center justify-center flex-1 h-full text-charcoal/80 active:text-primary active:scale-95 transition-all"
         >
           <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center mb-0.5">

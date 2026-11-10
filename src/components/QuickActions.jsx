@@ -1,26 +1,29 @@
 import React from 'react';
 import { Phone, MessageSquare, MapPin, Clock } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function QuickActions() {
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
   const actions = [
     {
       title: "Call Us",
       description: "Have questions? Ring us directly",
       icon: <Phone className="text-primary w-6 h-6 group-hover:text-accent smooth-transition" />,
-      link: `tel:${storeInfo.phone}`,
-      actionText: storeInfo.phone
+      link: storeInfo.callUrl || "tel:9542670795",
+      actionText: storeInfo.phoneDisplay || storeInfo.phone || "9542670795"
     },
     {
       title: "WhatsApp Us",
       description: "Chat with us for inquiries",
       icon: <MessageSquare className="text-secondary w-6 h-6 group-hover:text-accent smooth-transition" />,
-      link: `https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`,
+      link: `${storeInfo.whatsappUrl || "https://wa.me/919542670795"}?text=${encodeURIComponent(storeInfo.whatsappMessage)}`,
       actionText: "Send Message"
     },
     {
       title: "Get Directions",
-      description: "Find us in Nandigama",
+      description: "Find us in Kanchikacherla",
       icon: <MapPin className="text-accent w-6 h-6 group-hover:text-primary smooth-transition" />,
       link: storeInfo.googleMapsUrl,
       actionText: "Open Map"

@@ -2,14 +2,19 @@
   "name": "Sri Manikanta Sai General Store",
   "shortName": "Sri Manikanta Sai",
   "tagline": "Your Everyday Store",
-  "description": "Sri Manikanta Sai General Store is your trusted neighbourhood market in Nandigama, Andhra Pradesh. We make everyday shopping simple and convenient by bringing you fresh groceries, quality kitchen essentials, household utilities, personal care, baby care, and quality stationery — all in one welcoming place.",
+  "description": "Sri Manikanta Sai General Store is your trusted neighbourhood market in Kanchikacherla, Andhra Pradesh. We make everyday shopping simple and convenient by bringing you fresh groceries, quality kitchen essentials, household utilities, personal care, baby care, and quality stationery — all in one welcoming place.",
   "logo": "/images/logo.png",
-  "phone": "+91 98765 43210",
-  "whatsapp": "+91 98765 43210",
-  "whatsappMessage": "Hello Sri Manikanta Sai, I would like to know more about the products available at your store.",
-  "address": "Main Road, Near Gandhi Center, Nandigama, Krishna District, Andhra Pradesh - 521185, India",
-  "googleMapsUrl": "https://maps.google.com/?q=Sri+Manikanta+Sai+General+Store+Main+Road+Nandigama+Andhra+Pradesh",
-  "googleMapsEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15286.974913220556!2d80.28334468641973!3d16.78912386127116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f3dfd77fffff%3A0xe541e24bc1c9a63b!2sNandigama%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin",
+  "phone": "9542670795",
+  "phoneDisplay": "+91 95426 70795",
+  "callUrl": "tel:9542670795",
+  "whatsapp": "9542670795",
+  "whatsappDisplay": "+91 95426 70795",
+  "whatsappFull": "919542670795",
+  "whatsappUrl": "https://wa.me/919542670795",
+  "whatsappMessage": "Hello Sri Manikanta Sai, I would like to enquire about your products.",
+  "address": "Kanchikacherla, Andhra Pradesh, India",
+  "googleMapsUrl": "https://www.google.com/maps/place/Kanchikacherla,+Andhra+Pradesh/@16.687892,80.3904414,20.22z/data=!4m6!3m5!1s0x3a35958922aa3829:0xdbb7612a675fcb75!8m2!3d16.6833153!4d80.390432!16s%2Fm%2F0273888?entry=ttu",
+  "googleMapsEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3824.846663242095!2d80.3882533!3d16.6833153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35958922aa3829%3A0xdbb7612a675fcb75!2sKanchikacherla%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin",
   "openingHours": [
     {
       "days": "Monday – Sunday",
@@ -27,7 +32,7 @@
     },
     {
       "title": "Convenient Location",
-      "description": "Situated in the heart of Nandigama town, making it easy to drop in during your daily commute."
+      "description": "Situated in the heart of Kanchikacherla, making it easy to drop in during your daily commute."
     },
     {
       "title": "Friendly Local Service",
@@ -38,7 +43,7 @@
     {
       "title": "Store Exterior",
       "image": "/images/store-exterior.jpg",
-      "description": "Our welcoming storefront on Main Road, Nandigama."
+      "description": "Our welcoming storefront in Kanchikacherla."
     },
     {
       "title": "Store Interior",

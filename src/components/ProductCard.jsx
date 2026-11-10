@@ -1,9 +1,13 @@
 import React from 'react';
 import { MessageSquare, Check, Phone, AlertCircle } from 'lucide-react';
-import { storeInfo } from '../data/store';
+import { storeInfo as defaultStoreInfo } from '../data/store';
+import { useStore } from '../context/StoreContext';
 
 export default function ProductCard({ product, categoryName }) {
-  const whatsappUrl = `https://wa.me/${storeInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+  const { storeInfo: liveStoreInfo } = useStore();
+  const storeInfo = liveStoreInfo || defaultStoreInfo;
+  const whatsappBase = storeInfo.whatsappUrl || "https://wa.me/919542670795";
+  const whatsappUrl = `${whatsappBase}?text=${encodeURIComponent(
     `Hello, I saw "${product.name} (${product.packSize})" on your website. Is it available in stock today?`
   )}`;
 
@@ -89,7 +93,7 @@ export default function ProductCard({ product, categoryName }) {
           {/* Quick CTA */}
           <div className="flex space-x-1.5 shrink-0">
             <a
-              href={`tel:${storeInfo.phone}`}
+              href={storeInfo.callUrl || "tel:9542670795"}
               className="p-2 rounded-lg bg-cream-dark hover:bg-primary hover:text-white text-charcoal/70 transition-all duration-200"
               title="Call store about this item"
             >

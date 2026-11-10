@@ -291,7 +291,7 @@ export default function Navbar({ activePage, setActivePage, onOpenAdmin }) {
             </div>
             <div className="flex items-start space-x-2.5 text-xs text-charcoal/80 font-medium">
               <MapPin size={15} className="text-accent shrink-0 mt-0.5" />
-              <span className="leading-snug">Main Road, Near Gandhi Center, Nandigama</span>
+              <span className="leading-snug">{storeInfo.address}</span>
             </div>
           </div>
         </div>
@@ -299,7 +299,7 @@ export default function Navbar({ activePage, setActivePage, onOpenAdmin }) {
         {/* Drawer Action Buttons & Footer */}
         <div className="p-4 border-t border-slate-100 bg-white space-y-2.5 shrink-0">
           <a 
-            href={`tel:${storeInfo.phone}`}
+            href={storeInfo.callUrl || "tel:9542670795"}
             className="w-full inline-flex items-center justify-center space-x-2 py-3.5 px-4 rounded-xl bg-primary text-white font-bold text-sm shadow hover:bg-primary-dark transition-colors"
           >
             <Phone size={16} className="text-accent" />
